@@ -1,0 +1,29 @@
+services:
+  dengine-postgres:
+    container_name: dengine-postgres
+    build: ./
+    restart: on-failure
+    environment:
+      - PGPORT=${DB_PORT}
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PWD}
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    expose:
+      - "${DB_PORT}"
+    volumes:
+      - db:/var/lib/postgresql/data/
+    networks:
+      - back
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 2s
+      timeout: 5s
+      start_period: 20s
+
+volumes:
+  db:
+
+networks:
+  back:

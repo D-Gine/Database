@@ -1,0 +1,13 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# env file
+.env
+
+# Editor/IDE
+# .idea/
+.vscode/
