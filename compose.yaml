@@ -1,6 +1,6 @@
 services:
-  dengine-postgres:
-    container_name: dengine-postgres
+  dengine-db:
+    container_name: dengine-db
     build: ./
     restart: on-failure
     environment:
@@ -27,3 +27,4 @@ volumes:
 
 networks:
   back:
+    name: ${BACK_NETWORK}

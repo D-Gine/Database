@@ -4,10 +4,13 @@
 
 For this project you need the following environment variables:
 ```
-#DATABASE
-DB_HOST=dengine-postgres
+# DATABASE
+DB_HOST=dengine-db
 DB_PORT=5432
-DB_USER=user
-DB_PWD=userpwd
+DB_USER=[USER : string]
+DB_PWD=[PWD : string]
 DB_NAME=dengine
+
+# NETWORKS
+BACK_NETWORK=dengine-back-net
 ```
