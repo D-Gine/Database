@@ -1,8 +1,109 @@
 CREATE SCHEMA IF NOT EXISTS games;
 
-CREATE TABLE IF NOT EXISTS games.characters (
-    id UUID DEFAULT uuid_generate_v4() NOT NULL UNIQUE,
-    player_id UUID NOT NULL REFERENCES accounts.users(id) ON DELETE CASCADE,
-    name VARCHAR(255) NOT NULL,
-    PRIMARY KEY (id)
+CREATE TABLE IF NOT EXISTS games.rulesets (
+    id          UUID			DEFAULT uuid_generate_v4()  NOT NULL UNIQUE,
+    creator_id  UUID										NOT NULL,
+    name        VARCHAR(255)								NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (creator_id)	REFERENCES accounts.users(id)
 );
+
+CREATE TABLE IF NOT EXISTS games.entities (
+    id          UUID	DEFAULT uuid_generate_v4()  NOT NULL UNIQUE,
+    ruleset_id  UUID								NOT NULL,
+    tags        TEXT,
+    PRIMARY KEY (id),
+    FOREIGN KEY (ruleset_id)	REFERENCES games.rulesets(id)
+);
+
+CREATE TABLE IF NOT EXISTS games.components_templates (
+    id          UUID			DEFAULT uuid_generate_v4()  NOT NULL UNIQUE,
+    ruleset_id  UUID										NOT NULL,
+    name        VARCHAR(255)								NOT NULL,
+    type        TEXT,
+    expression  TEXT										NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (ruleset_id)	REFERENCES games.rulesets(id)
+);
+
+CREATE TABLE IF NOT EXISTS games.components (
+    id          UUID	DEFAULT uuid_generate_v4()	NOT NULL UNIQUE,
+    ruleset_id  UUID								NOT NULL,
+    template_id	UUID								NOT NULL,
+    name        VARCHAR(255)						NOT NULL,
+    type        TEXT,
+    expression  TEXT,
+    PRIMARY KEY (id),
+    FOREIGN KEY (ruleset_id)	REFERENCES games.rulesets(id)
+);
+
+CREATE TABLE IF NOT EXISTS games.components_entities (
+	entity_id    UUID								NOT NULL,
+	component_id UUID								NOT NULL,
+	PRIMARY KEY (entity_id, component_id),
+	FOREIGN KEY (entity_id)		REFERENCES games.entities(id) ON DELETE CASCADE,
+	FOREIGN KEY (component_id)	REFERENCES games.components(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS games.characters_templates (
+    id          UUID	DEFAULT uuid_generate_v4()	NOT NULL UNIQUE,
+    ruleset_id  UUID								NOT NULL,
+    name        VARCHAR(255)						NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (ruleset_id)	REFERENCES games.rulesets(id)
+);
+
+CREATE TABLE IF NOT EXISTS games.characters_components (
+	component_template_id	UUID	NOT NULL,
+	character_template_id	UUID	NOT NULL,
+	PRIMARY KEY (component_template_id, character_template_id),
+	FOREIGN KEY (component_template_id)		REFERENCES games.components_templates(id) ON DELETE CASCADE,
+	FOREIGN KEY (character_template_id)	REFERENCES games.characters_templates(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS games.items (
+    id          UUID	DEFAULT uuid_generate_v4()	NOT NULL UNIQUE,
+    ruleset_id  UUID								NOT NULL,
+    name        VARCHAR(255)						NOT NULL,
+    description	TEXT,
+    tags		TEXT,
+	effects 	TEXT,
+	components 	TEXT, -- remove this ?
+	metadata 	TEXT, -- remove this ?
+    PRIMARY KEY (id),
+    FOREIGN KEY (ruleset_id)	REFERENCES games.rulesets(id)
+);
+
+CREATE TABLE IF NOT EXISTS games.components_items (
+	component_id	UUID	NOT NULL,
+	item_id			UUID	NOT NULL,
+	PRIMARY KEY (component_id, item_id),
+	FOREIGN KEY (component_id)				REFERENCES games.components(id) ON DELETE CASCADE,
+	FOREIGN KEY (item_id)					REFERENCES games.items(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS games.effects (
+    id          UUID	DEFAULT uuid_generate_v4()	NOT NULL UNIQUE,
+    ruleset_id  UUID								NOT NULL,
+    trigger		VARCHAR(255)						NOT NULL,
+    expression	TEXT,
+    PRIMARY KEY (id),
+    FOREIGN KEY (ruleset_id)	REFERENCES games.rulesets(id)
+);
+
+CREATE TABLE IF NOT EXISTS games.effects_items (
+	effect_id	UUID	NOT NULL,
+	item_id			UUID	NOT NULL,
+	PRIMARY KEY (effect_id, item_id),
+	FOREIGN KEY (effect_id)				REFERENCES games.effects(id) ON DELETE CASCADE,
+	FOREIGN KEY (item_id)					REFERENCES games.items(id) ON DELETE CASCADE
+);
+
+
+-- CREATE TABLE IF NOT EXISTS games.characters (
+--     id          UUID			DEFAULT uuid_generate_v4()  NOT NULL UNIQUE,
+--     player_id   UUID										NOT NULL,
+--     name        VARCHAR(255)								NOT NULL,
+--     PRIMARY KEY (id),
+--     FOREIGN KEY (player_id) REFERENCES accounts.users(id) ON DELETE CASCADE
+-- );
