@@ -6,7 +6,7 @@ CREATE SCHEMA IF NOT EXISTS games;
 
 CREATE TABLE IF NOT EXISTS games.rulesets (
     id          UUID			DEFAULT uuid_generate_v4()  NOT NULL UNIQUE,
-    creator_id  UUID										NOT NULL,
+    creator_id  UUID,
     name        VARCHAR(255)								NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (creator_id)	REFERENCES accounts.users(id)
@@ -102,8 +102,8 @@ CREATE TABLE IF NOT EXISTS games.components_entities (
 );
 
 CREATE TABLE IF NOT EXISTS games.entities_tags (
-    entity_id UUID NOT NULL,
-    tag_id UUID NOT NULL,
+    entity_id	UUID NOT NULL,
+    tag_id		UUID NOT NULL,
     PRIMARY KEY (entity_id, tag_id),
     FOREIGN KEY (entity_id) REFERENCES games.entities(id) ON DELETE CASCADE,
 	FOREIGN KEY (tag_id) REFERENCES games.tags(id) ON DELETE CASCADE
@@ -117,10 +117,9 @@ CREATE TABLE IF NOT EXISTS games.characters_components (
 	FOREIGN KEY (character_template_id)	    REFERENCES games.characters_templates(id) ON DELETE CASCADE
 );
 
-
 CREATE TABLE IF NOT EXISTS games.items_tags (
-    item_id UUID NOT NULL,
-    tag_id UUID NOT NULL,
+    item_id	UUID NOT NULL,
+    tag_id	UUID NOT NULL,
     PRIMARY KEY (item_id, tag_id),
     FOREIGN KEY (item_id) REFERENCES games.items(id) ON DELETE CASCADE,
 	FOREIGN KEY (tag_id) REFERENCES games.tags(id) ON DELETE CASCADE
@@ -136,8 +135,25 @@ CREATE TABLE IF NOT EXISTS games.components_items (
 
 CREATE TABLE IF NOT EXISTS games.effects_items (
 	effect_id	UUID	NOT NULL,
-	item_id			UUID	NOT NULL,
+	item_id		UUID	NOT NULL,
 	PRIMARY KEY (effect_id, item_id),
 	FOREIGN KEY (effect_id)				REFERENCES games.effects(id) ON DELETE CASCADE,
-	FOREIGN KEY (item_id)					REFERENCES games.items(id) ON DELETE CASCADE
+	FOREIGN KEY (item_id)				REFERENCES games.items(id) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS games.first_nodes (
+	ruleset_id	UUID	NOT NULL UNIQUE,
+	first_node	UUID	NOT NULL,
+	PRIMARY KEY (ruleset_id, first_node),
+	FOREIGN KEY (ruleset_id)				REFERENCES games.effects(id) ON DELETE CASCADE,
+	FOREIGN KEY (first_node)				REFERENCES games.components_templates(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS games.creation_nodes (
+	parent_id	UUID	NOT NULL,
+	child_id	UUID	NOT NULL,
+	PRIMARY KEY (parent_id, child_id),
+	FOREIGN KEY (parent_id)				REFERENCES games.components_templates(id) ON DELETE CASCADE,
+	FOREIGN KEY (child_id)				REFERENCES games.components_templates(id) ON DELETE CASCADE
+);
+
