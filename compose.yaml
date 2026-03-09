@@ -1,6 +1,6 @@
 services:
   dengine-db:
-    container_name: dengine-db
+    container_name: dengine-db-${VERSION}
     build: ./
     restart: on-failure
     environment:
@@ -24,6 +24,7 @@ services:
 
 volumes:
   db:
+    name: ${DB_VOLUME}
 
 networks:
   back:

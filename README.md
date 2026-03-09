@@ -13,4 +13,10 @@ DB_NAME=dengine
 
 # NETWORKS
 BACK_NETWORK=dengine-back-net
+
+# VOLUMES
+DB_VOLUME=dengine-db-volume
+
+# SERVICE
+VERSION=1.2.0
 ```
