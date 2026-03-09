@@ -135,9 +135,9 @@ CREATE TABLE IF NOT EXISTS games.components_items (
 );
 
 CREATE TABLE IF NOT EXISTS games.effects_items (
-	effect_id	UUID	NOT NULL,
+	effect_id	    UUID	NOT NULL,
 	item_id			UUID	NOT NULL,
 	PRIMARY KEY (effect_id, item_id),
-	FOREIGN KEY (effect_id)				REFERENCES games.effects(id) ON DELETE CASCADE,
+	FOREIGN KEY (effect_id)				    REFERENCES games.effects(id) ON DELETE CASCADE,
 	FOREIGN KEY (item_id)					REFERENCES games.items(id) ON DELETE CASCADE
 );
