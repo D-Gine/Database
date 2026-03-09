@@ -15,29 +15,40 @@ CREATE TABLE IF NOT EXISTS games.rulesets (
 CREATE TABLE IF NOT EXISTS games.tags (
     id          UUID            DEFAULT uuid_generate_v4() NOT NULL UNIQUE,
     ruleset_id  UUID					                   NOT NULL,
-    name        VARCHAR(255)                               NOT NULL UNIQUE
+    name        VARCHAR(255)                               NOT NULL UNIQUE,
+    FOREIGN KEY (ruleset_id)	REFERENCES games.rulesets(id)
 );
 
 CREATE TABLE IF NOT EXISTS games.entities (
     id          UUID	DEFAULT uuid_generate_v4()  NOT NULL UNIQUE,
     ruleset_id  UUID								NOT NULL,
     owner_id    UUID                                NOT NULL,
-    tags        UUID,
     PRIMARY KEY (id),
     FOREIGN KEY (ruleset_id)	REFERENCES games.rulesets(id),
     FOREIGN KEY (owner_id)	    REFERENCES accounts.users(id)
 );
 
-CREATE TYPE component_type AS ENUM('int', 'float', 'enum', 'string');
+CREATE TYPE CMPT_TYPE AS ENUM('number','string','enum_tag', 'string_input', 'fixed_size_list');
+
+CREATE TABLE IF NOT EXISTS games.component_type (
+    id          UUID	DEFAULT uuid_generate_v4()  NOT NULL UNIQUE,
+    ruleset_id  UUID								NOT NULL,
+    name        VARCHAR(255),
+    type        CMPT_TYPE,
+    metadata    JSONB,
+    PRIMARY KEY (id),
+    FOREIGN KEY (ruleset_id)	REFERENCES games.rulesets(id)
+);
 
 CREATE TABLE IF NOT EXISTS games.components_templates (
     id          UUID			DEFAULT uuid_generate_v4()  NOT NULL UNIQUE,
     ruleset_id  UUID										NOT NULL,
     name        VARCHAR(255)								NOT NULL,
-    type        COMPONENT_TYPE,
+    type        UUID,
     expression  TEXT,
     PRIMARY KEY (id),
-    FOREIGN KEY (ruleset_id)	REFERENCES games.rulesets(id)
+    FOREIGN KEY (ruleset_id)	REFERENCES games.rulesets(id),
+    FOREIGN KEY (type)	        REFERENCES games.component_type(id)
 );
 
 CREATE TABLE IF NOT EXISTS games.components (
