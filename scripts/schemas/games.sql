@@ -100,14 +100,6 @@ CREATE TABLE IF NOT EXISTS games.components_entities (
 	FOREIGN KEY (component_id)	REFERENCES games.components(id) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS games.components_types_templates (
-	type_id     UUID								NOT NULL,
-	template_id UUID								NOT NULL,
-	PRIMARY KEY (type_id, template_id),
-	FOREIGN KEY (type_id)		REFERENCES games.components_types(id) ON DELETE CASCADE,
-	FOREIGN KEY (template_id)	REFERENCES games.components_templates(id) ON DELETE CASCADE
-);
-
 CREATE TABLE IF NOT EXISTS games.components_templates_links (
 	component_id    UUID								NOT NULL,
 	template_id     UUID								NOT NULL,
@@ -122,6 +114,16 @@ CREATE TABLE IF NOT EXISTS games.creations_templates (
 	PRIMARY KEY (creation_id, template_id),
 	FOREIGN KEY (creation_id)	REFERENCES games.components_creations(id) ON DELETE CASCADE,
 	FOREIGN KEY (template_id)	REFERENCES games.components_templates(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS games.creations_links (
+	node_id     UUID            NOT NULL,
+	parent_id	UUID,
+	child_id	UUID,
+	-- PRIMARY KEY (node_id, parent_id, child_id), // do not work because parent or child can be null
+	FOREIGN KEY (node_id)	    REFERENCES games.components_creations(id) ON DELETE CASCADE,
+	FOREIGN KEY (parent_id)	    REFERENCES games.components_creations(id) ON DELETE CASCADE,
+	FOREIGN KEY (child_id)		REFERENCES games.components_creations(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS games.entities_tags (
@@ -154,14 +156,4 @@ CREATE TABLE IF NOT EXISTS games.effects_items (
 	PRIMARY KEY (effect_id, item_id),
 	FOREIGN KEY (effect_id)				REFERENCES games.effects(id) ON DELETE CASCADE,
 	FOREIGN KEY (item_id)				REFERENCES games.items(id) ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS games.creations_links (
-	parent_id	UUID	        NOT NULL,
-	node_id     UUID            NOT NULL,
-	child_id	UUID	        NOT NULL,
-	PRIMARY KEY (parent_id, node_id, child_id),
-	FOREIGN KEY (parent_id)	    REFERENCES games.components_creations(id) ON DELETE CASCADE,
-	FOREIGN KEY (node_id)	    REFERENCES games.components_creations(id) ON DELETE CASCADE,
-	FOREIGN KEY (child_id)		REFERENCES games.components_creations(id) ON DELETE CASCADE
 );
