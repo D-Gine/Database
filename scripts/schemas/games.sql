@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS games.entities (
     id          UUID	DEFAULT uuid_generate_v4()  NOT NULL UNIQUE,
     ruleset_id  UUID								NOT NULL,
     owner_id    UUID                                NOT NULL,
+    name        VARCHAR(255),
     PRIMARY KEY (id),
     FOREIGN KEY (ruleset_id)	REFERENCES games.rulesets(id),
     FOREIGN KEY (owner_id)	    REFERENCES accounts.users(id)
