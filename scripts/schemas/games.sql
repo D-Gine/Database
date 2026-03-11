@@ -6,7 +6,7 @@ CREATE SCHEMA IF NOT EXISTS games;
 
 CREATE TABLE IF NOT EXISTS games.rulesets (
     id          UUID			DEFAULT uuid_generate_v4()  NOT NULL UNIQUE,
-    creator_id  UUID										NOT NULL,
+    creator_id  UUID,
     name        VARCHAR(255)								NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (creator_id)	REFERENCES accounts.users(id)
@@ -148,11 +148,11 @@ CREATE TABLE IF NOT EXISTS games.components_items (
 );
 
 CREATE TABLE IF NOT EXISTS games.effects_items (
-	effect_id	    UUID	NOT NULL,
-	item_id			UUID	NOT NULL,
+	effect_id	UUID	NOT NULL,
+	item_id		UUID	NOT NULL,
 	PRIMARY KEY (effect_id, item_id),
-	FOREIGN KEY (effect_id)				    REFERENCES games.effects(id) ON DELETE CASCADE,
-	FOREIGN KEY (item_id)					REFERENCES games.items(id) ON DELETE CASCADE
+	FOREIGN KEY (effect_id)				REFERENCES games.effects(id) ON DELETE CASCADE,
+	FOREIGN KEY (item_id)				REFERENCES games.items(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS games.creations_links (
