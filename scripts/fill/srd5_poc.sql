@@ -29,7 +29,6 @@ VALUES
 
 INSERT INTO games.components_templates (id, ruleset_id, name, type)
 VALUES
-('cce43266-0ef0-4f62-868e-8ccddc7db472', '58e6aaee-5bd0-4b3d-b6db-b5c6c390b3ce', 'TestNumber', '05a6e8a2-8fab-4f6d-81c1-0b2e81a43882'),
 ('c91e2727-811b-4ca6-a6b8-9a3395840947', '58e6aaee-5bd0-4b3d-b6db-b5c6c390b3ce', 'Strength', '0fcc9e1b-ad9a-414d-b245-a809b9c194c3'),
 ('5b2aa49c-317d-4521-b78d-0d1fcfa5b3e6', '58e6aaee-5bd0-4b3d-b6db-b5c6c390b3ce', 'Dexterity', '0fcc9e1b-ad9a-414d-b245-a809b9c194c3'),
 ('9acb6bf0-1da5-454f-8467-8f1eb3634ac8', '58e6aaee-5bd0-4b3d-b6db-b5c6c390b3ce', 'Constitution', '0fcc9e1b-ad9a-414d-b245-a809b9c194c3'),
@@ -40,63 +39,86 @@ VALUES
 ('98d5a6d3-629e-4096-8c1c-e76d5332179d', '58e6aaee-5bd0-4b3d-b6db-b5c6c390b3ce', 'Level 2 Spells', '963709a4-b7d6-490c-8a95-e060834db54f'),
 ('1cc5b258-d87a-4e84-9828-86fefe5d5ec4', '58e6aaee-5bd0-4b3d-b6db-b5c6c390b3ce', 'Class', '909b06d4-8b46-4b31-af1f-f61f51b35277');
 
+-- Creation nodes
+-- Note: We use multiple nodes for spell selection paths to handle different class conditions
 INSERT INTO games.components_creations (id, ruleset_id, condition)
 VALUES
-('008dbe54-2343-45e0-b8f3-496a36972338', '58e6aaee-5bd0-4b3d-b6db-b5c6c390b3ce', '{"operator":"==","value":"04ba4eeb-322c-4641-ad74-50c2d6a00e72"}'),
-('a8b960a3-f915-427e-bfb5-d0929191cb83', '58e6aaee-5bd0-4b3d-b6db-b5c6c390b3ce', '{"operator":"==","value":"03bea715-5aee-4f2d-8785-860a9a686be5"}'),
-('b1c2d3e4-f5a6-7890-abcd-ef1234567890', '58e6aaee-5bd0-4b3d-b6db-b5c6c390b3ce', '{"operator":"==","value":"f7ac51b2-b561-49b2-8945-596a3b1a26ee"}'),
-('33153cff-6c40-4cce-85e5-aabfb63d6cc8', '58e6aaee-5bd0-4b3d-b6db-b5c6c390b3ce', '{}'),
-('f0de5164-232b-4ab1-9207-dca2845c4024', '58e6aaee-5bd0-4b3d-b6db-b5c6c390b3ce', '{}'),
-('59ed9841-84d2-4e13-b549-d2be05e7b3e8', '58e6aaee-5bd0-4b3d-b6db-b5c6c390b3ce', '{}'),
-('0c0292e2-c725-4a4d-88f3-fcf9e117bff3', '58e6aaee-5bd0-4b3d-b6db-b5c6c390b3ce', '{}');
+('0c0292e2-c725-4a4d-88f3-fcf9e117bff3', '58e6aaee-5bd0-4b3d-b6db-b5c6c390b3ce', '{}'),                                                    -- Class chooser (root, no condition)
+('33153cff-6c40-4cce-85e5-aabfb63d6cc8', '58e6aaee-5bd0-4b3d-b6db-b5c6c390b3ce', '{"operator":"==","value":"04ba4eeb-322c-4641-ad74-50c2d6a00e72"}'),  -- Stats (Barbarian condition)
+('f0de5164-232b-4ab1-9207-dca2845c4024', '58e6aaee-5bd0-4b3d-b6db-b5c6c390b3ce', '{"operator":"==","value":"f7ac51b2-b561-49b2-8945-596a3b1a26ee"}'),  -- Level 1 spells (Sorcerer condition)
+('aa111111-1111-1111-1111-111111111111', '58e6aaee-5bd0-4b3d-b6db-b5c6c390b3ce', '{"operator":"==","value":"03bea715-5aee-4f2d-8785-860a9a686be5"}'),  -- Level 1 spells (Cleric condition) - duplicate node for Cleric
+('59ed9841-84d2-4e13-b549-d2be05e7b3e8', '58e6aaee-5bd0-4b3d-b6db-b5c6c390b3ce', '{}'),                                                    -- Level 2 spells (no condition, comes after level 1)
+('bb222222-2222-2222-2222-222222222222', '58e6aaee-5bd0-4b3d-b6db-b5c6c390b3ce', '{}');                                                    -- Stats (no condition, comes after spell selection)
 
 INSERT INTO games.items (id, ruleset_id, name, description, metadata)
 VALUES
 ('04ba4eeb-322c-4641-ad74-50c2d6a00e72', '58e6aaee-5bd0-4b3d-b6db-b5c6c390b3ce', 'Barbarian', 'WRAAAAAAAAA', '{}'),
-('f7ac51b2-b561-49b2-8945-596a3b1a26ee', '58e6aaee-5bd0-4b3d-b6db-b5c6c390b3ce', 'Sorcerer', 'Spell catser class', '{}'),
-('03bea715-5aee-4f2d-8785-860a9a686be5', '58e6aaee-5bd0-4b3d-b6db-b5c6c390b3ce', 'Cleric', 'Spell catser class but with good mele', '{}'),
+('f7ac51b2-b561-49b2-8945-596a3b1a26ee', '58e6aaee-5bd0-4b3d-b6db-b5c6c390b3ce', 'Sorcerer', 'Spell caster class', '{}'),
+('03bea715-5aee-4f2d-8785-860a9a686be5', '58e6aaee-5bd0-4b3d-b6db-b5c6c390b3ce', 'Cleric', 'Spell caster class but with good melee', '{}'),
 ('f9446912-dde1-4831-8cde-475710dcd9fd', '58e6aaee-5bd0-4b3d-b6db-b5c6c390b3ce', 'Long Sword', 'This is a sword that sweep like in minecraft', '{"weight": 1.5}'),
 ('c975dcb9-2d98-46fa-9c09-3edc44874cb4', '58e6aaee-5bd0-4b3d-b6db-b5c6c390b3ce', 'Fireball', 'Big boom', '{"range": 45,"components":["V", "S", "M"],"materials":["tiny ball of bat guano","sulfur"]}'),
-('552f2201-77b7-4ade-8355-35f73cdd4653', '58e6aaee-5bd0-4b3d-b6db-b5c6c390b3ce', 'Magic Missile', 'You create three glowing darts of magical force. Each dart hits a creature of your choice that you can see within range. A dart deals 1d4 + 1 force damage to its target. The darts all strike simultaneously, and you can direct them to hit one creature or several. At Higher Levels. When you cast this spell using a spell slot of 2nd level or higher, the spell creates one more dart for each slot level above 1st.', '{"range": 120,"components":["V", "S"]}'),
-('5e411b0e-9bca-45ff-9f4c-4d4238b1aa8a', '58e6aaee-5bd0-4b3d-b6db-b5c6c390b3ce', 'Armor of Agathys', 'A protective magical force surrounds you, manifesting as a spectral frost that covers you and your gear. You gain 5 temporary hit points for the duration. If a creature hits you with a melee attack while you have these hit points, the creature takes 5 cold damage. At Higher Levels. When you cast this spell using a spell slot of 2nd level or higher, both the temporary hit points and the cold damage increase by 5 for each slot level above 1st.', '{"range": -1,"components":["V", "S", "M"],"materials":["a cup of water"]}');
+('552f2201-77b7-4ade-8355-35f73cdd4653', '58e6aaee-5bd0-4b3d-b6db-b5c6c390b3ce', 'Magic Missile', 'You create three glowing darts of magical force.', '{"range": 120,"components":["V", "S"]}'),
+('5e411b0e-9bca-45ff-9f4c-4d4238b1aa8a', '58e6aaee-5bd0-4b3d-b6db-b5c6c390b3ce', 'Armor of Agathys', 'A protective magical force surrounds you.', '{"range": -1,"components":["V", "S", "M"],"materials":["a cup of water"]}');
 
 INSERT INTO games.effects (id, ruleset_id, trigger, expression)
 VALUES
 ('02dc8368-13aa-4745-a0dd-044daa9b3d39', '58e6aaee-5bd0-4b3d-b6db-b5c6c390b3ce', 'on_hit', 'target.health -= strength.roll(1d8)');
 
--- LINKS
+-- LINKS: Assign templates to creation nodes
 
 INSERT INTO games.creations_templates (creation_id, template_id)
 VALUES
+-- Class chooser
 ('0c0292e2-c725-4a4d-88f3-fcf9e117bff3', '1cc5b258-d87a-4e84-9828-86fefe5d5ec4'),
+
+-- Stats chooser (for Barbarian - direct path)
 ('33153cff-6c40-4cce-85e5-aabfb63d6cc8', 'c91e2727-811b-4ca6-a6b8-9a3395840947'),
 ('33153cff-6c40-4cce-85e5-aabfb63d6cc8', '5b2aa49c-317d-4521-b78d-0d1fcfa5b3e6'),
 ('33153cff-6c40-4cce-85e5-aabfb63d6cc8', '9acb6bf0-1da5-454f-8467-8f1eb3634ac8'),
 ('33153cff-6c40-4cce-85e5-aabfb63d6cc8', 'f00751ab-21f0-4d6c-ab37-2eec68756a36'),
 ('33153cff-6c40-4cce-85e5-aabfb63d6cc8', '0975cf90-82ab-4126-89f3-60ab3a30897e'),
 ('33153cff-6c40-4cce-85e5-aabfb63d6cc8', '0e6a0677-15ab-4374-83f1-df28cfa944f9'),
+
+-- Level 1 spells (Sorcerer path)
 ('f0de5164-232b-4ab1-9207-dca2845c4024', '2e73eeba-3d3c-4a77-a9a2-69a73bec5b88'),
-('59ed9841-84d2-4e13-b549-d2be05e7b3e8', '98d5a6d3-629e-4096-8c1c-e76d5332179d');
+
+-- Level 1 spells (Cleric path - same templates, different node)
+('aa111111-1111-1111-1111-111111111111', '2e73eeba-3d3c-4a77-a9a2-69a73bec5b88'),
+
+-- Level 2 spells
+('59ed9841-84d2-4e13-b549-d2be05e7b3e8', '98d5a6d3-629e-4096-8c1c-e76d5332179d'),
+
+-- Stats chooser (for spell casters - after spell selection)
+('bb222222-2222-2222-2222-222222222222', 'c91e2727-811b-4ca6-a6b8-9a3395840947'),
+('bb222222-2222-2222-2222-222222222222', '5b2aa49c-317d-4521-b78d-0d1fcfa5b3e6'),
+('bb222222-2222-2222-2222-222222222222', '9acb6bf0-1da5-454f-8467-8f1eb3634ac8'),
+('bb222222-2222-2222-2222-222222222222', 'f00751ab-21f0-4d6c-ab37-2eec68756a36'),
+('bb222222-2222-2222-2222-222222222222', '0975cf90-82ab-4126-89f3-60ab3a30897e'),
+('bb222222-2222-2222-2222-222222222222', '0e6a0677-15ab-4374-83f1-df28cfa944f9');
+
+-- TREE STRUCTURE
+-- Root: Class chooser (0c0292e2) with 3 children based on class selection
 
 INSERT INTO games.creations_links (node_id, parent_id, child_id)
 VALUES
-('008dbe54-2343-45e0-b8f3-496a36972338', '0c0292e2-c725-4a4d-88f3-fcf9e117bff3', '33153cff-6c40-4cce-85e5-aabfb63d6cc8'),
-('a8b960a3-f915-427e-bfb5-d0929191cb83', '0c0292e2-c725-4a4d-88f3-fcf9e117bff3', 'f0de5164-232b-4ab1-9207-dca2845c4024'),
-('b1c2d3e4-f5a6-7890-abcd-ef1234567890', '0c0292e2-c725-4a4d-88f3-fcf9e117bff3', 'f0de5164-232b-4ab1-9207-dca2845c4024'),
-('f0de5164-232b-4ab1-9207-dca2845c4024', 'a8b960a3-f915-427e-bfb5-d0929191cb83', '59ed9841-84d2-4e13-b549-d2be05e7b3e8'),
-('f0de5164-232b-4ab1-9207-dca2845c4024', 'b1c2d3e4-f5a6-7890-abcd-ef1234567890', '59ed9841-84d2-4e13-b549-d2be05e7b3e8'),
-('59ed9841-84d2-4e13-b549-d2be05e7b3e8', 'f0de5164-232b-4ab1-9207-dca2845c4024', '33153cff-6c40-4cce-85e5-aabfb63d6cc8');
+-- From Class chooser to either Stats (Barbarian) or Level 1 Spells (Sorcerer/Cleric)
+('33153cff-6c40-4cce-85e5-aabfb63d6cc8', '0c0292e2-c725-4a4d-88f3-fcf9e117bff3', NULL),  -- Barbarian → Stats (last node)
+('f0de5164-232b-4ab1-9207-dca2845c4024', '0c0292e2-c725-4a4d-88f3-fcf9e117bff3', '59ed9841-84d2-4e13-b549-d2be05e7b3e8'),  -- Sorcerer → Level 1 → Level 2
+('aa111111-1111-1111-1111-111111111111', '0c0292e2-c725-4a4d-88f3-fcf9e117bff3', '59ed9841-84d2-4e13-b549-d2be05e7b3e8'),  -- Cleric → Level 1 → Level 2
 
-INSERT INTO games.creations_links (node_id, parent_id)
-VALUES
-('33153cff-6c40-4cce-85e5-aabfb63d6cc8', '008dbe54-2343-45e0-b8f3-496a36972338'),
-('33153cff-6c40-4cce-85e5-aabfb63d6cc8', '59ed9841-84d2-4e13-b549-d2be05e7b3e8');
+-- From Level 2 Spells to Stats
+('59ed9841-84d2-4e13-b549-d2be05e7b3e8', 'f0de5164-232b-4ab1-9207-dca2845c4024', 'bb222222-2222-2222-2222-222222222222'),  -- Sorcerer: Level 2 → Stats
+('59ed9841-84d2-4e13-b549-d2be05e7b3e8', 'aa111111-1111-1111-1111-111111111111', 'bb222222-2222-2222-2222-222222222222'),  -- Cleric: Level 2 → Stats
+
+-- Stats chooser as final node (no child)
+('bb222222-2222-2222-2222-222222222222', '59ed9841-84d2-4e13-b549-d2be05e7b3e8', NULL);
 
 INSERT INTO games.creations_links (node_id, child_id)
 VALUES
-('0c0292e2-c725-4a4d-88f3-fcf9e117bff3', '008dbe54-2343-45e0-b8f3-496a36972338'),
-('0c0292e2-c725-4a4d-88f3-fcf9e117bff3', 'a8b960a3-f915-427e-bfb5-d0929191cb83'),
-('0c0292e2-c725-4a4d-88f3-fcf9e117bff3', 'b1c2d3e4-f5a6-7890-abcd-ef1234567890');
+-- Class chooser has 3 possible children
+('0c0292e2-c725-4a4d-88f3-fcf9e117bff3', '33153cff-6c40-4cce-85e5-aabfb63d6cc8'),  -- Barbarian path
+('0c0292e2-c725-4a4d-88f3-fcf9e117bff3', 'f0de5164-232b-4ab1-9207-dca2845c4024'),  -- Sorcerer path
+('0c0292e2-c725-4a4d-88f3-fcf9e117bff3', 'aa111111-1111-1111-1111-111111111111');  -- Cleric path
 
 INSERT INTO games.entities_tags (entity_id, tag_id)
 VALUES
