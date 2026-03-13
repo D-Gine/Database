@@ -61,12 +61,10 @@ CREATE TABLE IF NOT EXISTS games.components_creations (
 CREATE TABLE IF NOT EXISTS games.components (
     id          UUID	DEFAULT uuid_generate_v4()	NOT NULL UNIQUE,
     ruleset_id  UUID								NOT NULL,
-    template_id	UUID								NOT NULL,
     name        VARCHAR(255)						NOT NULL,
     value       JSONB,
     PRIMARY KEY (id),
-    FOREIGN KEY (ruleset_id)	REFERENCES games.rulesets(id),
-    FOREIGN KEY (template_id)	REFERENCES games.components_templates(id)
+    FOREIGN KEY (ruleset_id)	REFERENCES games.rulesets(id)
 );
 
 CREATE TABLE IF NOT EXISTS games.items (
