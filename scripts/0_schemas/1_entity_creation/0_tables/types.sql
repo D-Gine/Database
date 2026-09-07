@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS "types" (
 );
 
 CREATE TABLE IF NOT EXISTS "enums" (
-	"id" UUID NOT NULL,
+	"id" UUID NOT NULL DEFAULT gen_random_uuid(),
 	"ruleset_id" UUID NOT NULL,
 	"name" VARCHAR(255),
 	"description" TEXT,
