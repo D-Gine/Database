@@ -1,0 +1,19 @@
+ALTER TABLE "nodes"
+ADD FOREIGN KEY("next_script_id") REFERENCES "next_scripts"("id")
+ON UPDATE NO ACTION ON DELETE CASCADE;
+
+ALTER TABLE "nodes"
+ADD FOREIGN KEY("ruleset_id") REFERENCES "rulesets"("id")
+ON UPDATE NO ACTION ON DELETE CASCADE;
+
+ALTER TABLE "nodes"
+ADD FOREIGN KEY("template_id") REFERENCES "static_components_templates"("id")
+ON UPDATE NO ACTION ON DELETE CASCADE;
+
+ALTER TABLE "first_nodes"
+ADD FOREIGN KEY("node_id") REFERENCES "nodes"("id")
+ON UPDATE NO ACTION ON DELETE CASCADE;
+
+ALTER TABLE "first_nodes"
+ADD FOREIGN KEY("ruleset_id") REFERENCES "rulesets"("id")
+ON UPDATE NO ACTION ON DELETE CASCADE;
