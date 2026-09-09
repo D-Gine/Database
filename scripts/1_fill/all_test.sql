@@ -2,12 +2,12 @@
 -- PostgreSQL database dump
 --
 
-\restrict i5E1mS8ktqGmdiYLww1LkzyMpRqpa3u1uxt3sgrJbT1pEObaysGoYqae4a3v6jf
+\restrict rQ3jKTgmbIi45q5IcyQHvChZ6pkuqenuD0814tMy6sx6IcR7AqCZDZabqQTonbh
 
 -- Dumped from database version 16.15
 -- Dumped by pg_dump version 16.14
 
--- Started on 2026-09-09 15:43:44 UTC
+-- Started on 2026-09-09 16:02:55 UTC
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -130,6 +130,8 @@ INSERT INTO public.enums VALUES ('f552b243-81fb-4901-9b09-a140de4660f4', '0e3196
 -- Data for Name: next_scripts; Type: TABLE DATA; Schema: public; Owner: prout
 --
 
+INSERT INTO public.next_scripts VALUES ('bc99527e-a6d2-4634-9b5a-8861519bf194', '// met dans result la la node de la classe choisie');
+INSERT INTO public.next_scripts VALUES ('8640865c-9493-4d58-9f32-ce875241b9ab', 'result = params.next // il n''y a que un seul next possible, simple');
 
 
 --
@@ -138,6 +140,12 @@ INSERT INTO public.enums VALUES ('f552b243-81fb-4901-9b09-a140de4660f4', '0e3196
 -- Data for Name: nodes; Type: TABLE DATA; Schema: public; Owner: prout
 --
 
+INSERT INTO public.nodes VALUES ('4fbb7e27-8e26-47dd-bea1-f687cc4a98db', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'a345c59c-4bea-4bef-b0e9-36d774d9111e', NULL, '{}');
+INSERT INTO public.nodes VALUES ('5add1a83-bd43-4385-b04a-c3797138d684', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'c1d8156c-ad1a-4df0-94e8-11dba7aae8f8', 'bc99527e-a6d2-4634-9b5a-8861519bf194', '{}');
+INSERT INTO public.nodes VALUES ('5b76ec32-3f44-402c-80c7-27716cce8492', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', '08e6a40e-4f5e-47f7-bd91-7118f4ce4d29', '8640865c-9493-4d58-9f32-ce875241b9ab', '{"next": "4fbb7e27-8e26-47dd-bea1-f687cc4a98db"}');
+INSERT INTO public.nodes VALUES ('671736db-cdfc-46b9-8a2e-f20a62b7a36f', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', '95399172-0f43-4e10-8024-9c63c0373fc0', '8640865c-9493-4d58-9f32-ce875241b9ab', '{"next": "4fbb7e27-8e26-47dd-bea1-f687cc4a98db"}');
+INSERT INTO public.nodes VALUES ('395d85bf-8fa6-434f-aa8f-933ef245e0eb', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', '0c9c9ab8-c65e-41f4-9207-282eab61f92e', '8640865c-9493-4d58-9f32-ce875241b9ab', '{"next": "4fbb7e27-8e26-47dd-bea1-f687cc4a98db"}');
+INSERT INTO public.nodes VALUES ('3e4ea0d2-1270-4816-bd30-e9f2108db35d', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', '127ffe19-a102-4a5f-bf10-7773fab04fd1', '8640865c-9493-4d58-9f32-ce875241b9ab', '{"next": "5add1a83-bd43-4385-b04a-c3797138d684"}');
 
 
 --
@@ -146,6 +154,7 @@ INSERT INTO public.enums VALUES ('f552b243-81fb-4901-9b09-a140de4660f4', '0e3196
 -- Data for Name: first_nodes; Type: TABLE DATA; Schema: public; Owner: prout
 --
 
+INSERT INTO public.first_nodes VALUES ('3e4ea0d2-1270-4816-bd30-e9f2108db35d', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333');
 
 
 --
@@ -223,10 +232,10 @@ INSERT INTO public.type_verification_scripts VALUES ('090ad3e7-9cfa-4839-b1de-c8
 INSERT INTO public.type_verification_scripts VALUES ('c7093e07-cc89-4f4d-aac0-cc78c1e1dc45', 'f79c6225-baf0-45af-81c6-8eb45d1a961f', 'result = true // stat');
 
 
--- Completed on 2026-09-09 15:43:44 UTC
+-- Completed on 2026-09-09 16:02:55 UTC
 
 --
 -- PostgreSQL database dump complete
 --
 
-\unrestrict i5E1mS8ktqGmdiYLww1LkzyMpRqpa3u1uxt3sgrJbT1pEObaysGoYqae4a3v6jf
+\unrestrict rQ3jKTgmbIi45q5IcyQHvChZ6pkuqenuD0814tMy6sx6IcR7AqCZDZabqQTonbh
