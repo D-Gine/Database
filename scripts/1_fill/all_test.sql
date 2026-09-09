@@ -2,12 +2,12 @@
 -- PostgreSQL database dump
 --
 
-\restrict ssW2dNIaeyDgdKEBOZChtboaMhdeXj1mPw1Tt3fFlL5Na07sgnrRzbJgYcFzZ4a
+\restrict i5E1mS8ktqGmdiYLww1LkzyMpRqpa3u1uxt3sgrJbT1pEObaysGoYqae4a3v6jf
 
 -- Dumped from database version 16.15
 -- Dumped by pg_dump version 16.14
 
--- Started on 2026-09-09 15:14:06 UTC
+-- Started on 2026-09-09 15:43:44 UTC
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -51,6 +51,12 @@ INSERT INTO public.types VALUES ('46f3fe59-7eca-4529-b290-ed315e302e12', '0e3196
 INSERT INTO public.types VALUES ('21ecaea4-696d-4e7c-8a31-20522674552f', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', NULL, 'list', NULL);
 INSERT INTO public.types VALUES ('b4258b56-81d6-4a03-84a1-0edab70281f4', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', NULL, 'enum', NULL);
 INSERT INTO public.types VALUES ('6109eca7-5b21-4c5f-906c-ae882ceb353c', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', '01858199-d256-4071-90da-c212704bd7da', 'email', NULL);
+INSERT INTO public.types VALUES ('509b9865-a9e7-40e8-a7e0-071c7fda2f97', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', '46f3fe59-7eca-4529-b290-ed315e302e12', 'Stat pool', '{"interface": {"cha": "f79c6225-baf0-45af-81c6-8eb45d1a961f", "con": "f79c6225-baf0-45af-81c6-8eb45d1a961f", "dex": "f79c6225-baf0-45af-81c6-8eb45d1a961f", "int": "f79c6225-baf0-45af-81c6-8eb45d1a961f", "str": "f79c6225-baf0-45af-81c6-8eb45d1a961f", "wis": "f79c6225-baf0-45af-81c6-8eb45d1a961f"}}');
+INSERT INTO public.types VALUES ('d3c23a4e-780b-49aa-a85a-802ed877c57d', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'b4258b56-81d6-4a03-84a1-0edab70281f4', 'Class', '{"tags": ["64f73b11-5699-46a2-9f63-4db41f18e472"]}');
+INSERT INTO public.types VALUES ('00a5d535-e46f-42ef-b0d3-7d572adde9e8', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'b4258b56-81d6-4a03-84a1-0edab70281f4', 'Sorcerer spell', '{"tags": ["080bae99-829d-4fc9-91c7-6b43b06b24b0", "110ee2a7-d94a-416f-b66d-4d26927fc268"]}');
+INSERT INTO public.types VALUES ('31f387c2-1288-4b79-a851-d201476ef555', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'b4258b56-81d6-4a03-84a1-0edab70281f4', 'Bard Spell', '{"tags": ["080bae99-829d-4fc9-91c7-6b43b06b24b0", "2a9bf94f-1db4-48c2-9a60-63a0f65d3493"]}');
+INSERT INTO public.types VALUES ('753a2e09-60e4-4bb8-9553-9c1ef4662afa', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'b4258b56-81d6-4a03-84a1-0edab70281f4', 'Barbarian path', '{"tags": ["e5a7d58f-7842-4bac-ae72-0c344883303f", "dcc6c81e-d887-4df0-ab1f-76d0df97e63d"]}');
+INSERT INTO public.types VALUES ('7786f8ca-40c0-4b22-8319-8c38da55f51c', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', '458b7c0a-6cc8-4108-ac23-850af12ed2b7', 'Level', '{"max": 20, "min": 1}');
 
 
 --
@@ -67,6 +73,12 @@ INSERT INTO public.types VALUES ('6109eca7-5b21-4c5f-906c-ae882ceb353c', '0e3196
 -- Data for Name: static_components_templates; Type: TABLE DATA; Schema: public; Owner: prout
 --
 
+INSERT INTO public.static_components_templates VALUES ('a345c59c-4bea-4bef-b0e9-36d774d9111e', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'Base stats', 'base stats', '509b9865-a9e7-40e8-a7e0-071c7fda2f97');
+INSERT INTO public.static_components_templates VALUES ('08e6a40e-4f5e-47f7-bd91-7118f4ce4d29', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'Sorcerer spells', 'sorcerer spells', '00a5d535-e46f-42ef-b0d3-7d572adde9e8');
+INSERT INTO public.static_components_templates VALUES ('95399172-0f43-4e10-8024-9c63c0373fc0', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'Bard spells', 'bard spells', '31f387c2-1288-4b79-a851-d201476ef555');
+INSERT INTO public.static_components_templates VALUES ('0c9c9ab8-c65e-41f4-9207-282eab61f92e', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'Barbarian path', 'barbarian path', '753a2e09-60e4-4bb8-9553-9c1ef4662afa');
+INSERT INTO public.static_components_templates VALUES ('c1d8156c-ad1a-4df0-94e8-11dba7aae8f8', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'Class', 'class', 'd3c23a4e-780b-49aa-a85a-802ed877c57d');
+INSERT INTO public.static_components_templates VALUES ('127ffe19-a102-4a5f-bf10-7773fab04fd1', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'Level', 'Base level', '7786f8ca-40c0-4b22-8319-8c38da55f51c');
 
 
 --
@@ -211,11 +223,10 @@ INSERT INTO public.type_verification_scripts VALUES ('090ad3e7-9cfa-4839-b1de-c8
 INSERT INTO public.type_verification_scripts VALUES ('c7093e07-cc89-4f4d-aac0-cc78c1e1dc45', 'f79c6225-baf0-45af-81c6-8eb45d1a961f', 'result = true // stat');
 
 
--- Completed on 2026-09-09 15:14:06 UTC
+-- Completed on 2026-09-09 15:43:44 UTC
 
 --
 -- PostgreSQL database dump complete
 --
 
-\unrestrict ssW2dNIaeyDgdKEBOZChtboaMhdeXj1mPw1Tt3fFlL5Na07sgnrRzbJgYcFzZ4a
-
+\unrestrict i5E1mS8ktqGmdiYLww1LkzyMpRqpa3u1uxt3sgrJbT1pEObaysGoYqae4a3v6jf
