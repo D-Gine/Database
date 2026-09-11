@@ -8,6 +8,9 @@ COPY ./scripts/0_schemas /docker-entrypoint-initdb.d/
 # COPY ./scripts/schemas/accounts.sql   /docker-entrypoint-initdb.d/01_accounts.sql
 # COPY ./scripts/schemas/games.sql   /docker-entrypoint-initdb.d/02_games.sql
 
+# FUNCTIONS
+COPY ./scripts/2_functions /docker-entrypoint-initdb.d/2_functions
+
 # RULESETS
 COPY ./scripts/1_fill /docker-entrypoint-initdb.d/
 # COPY ./scripts/fill/srd5_poc.sql   /docker-entrypoint-initdb.d/10_srd5.sql
