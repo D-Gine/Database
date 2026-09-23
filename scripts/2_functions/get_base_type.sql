@@ -41,16 +41,6 @@ AS $$
     FROM get_base gb;
 $$;
 
--- EXEMPLE OF USAGE
---  SELECT * FROM get_type_arborescence('517bf0f4-ec17-4f0b-aa9f-25d78d1468c9')
-
--- and you will get
--- id                                       base_type_id                            name            restrictions                depth
--- "517bf0f4-ec17-4f0b-aa9f-25d78d1468c9"	"f79c6225-baf0-45af-81c6-8eb45d1a961f"	"better stat"	"{""max"": 22}"         	0
--- "f79c6225-baf0-45af-81c6-8eb45d1a961f"	"458b7c0a-6cc8-4108-ac23-850af12ed2b7"	"stat"	        "{""max"": 22, ""min"": 0}"	1
--- "458b7c0a-6cc8-4108-ac23-850af12ed2b7"	NULL                                   	"number"        "{""max"": 22, ""min"": 0}"	2
-
-
 CREATE OR REPLACE FUNCTION get_base_type_json(target_type_id UUID)
 RETURNS JSONB
 LANGUAGE plpgsql
@@ -69,6 +59,88 @@ BEGIN
     RETURN result;
 END;
 $$;
+
+CREATE OR REPLACE FUNCTION get_verifications(target_type_ids UUID[])
+RETURNS TABLE (
+    target_type_id UUID,
+    base_name VARCHAR(255),
+    restrictions JSONB,
+    scripts TEXT[]
+)
+LANGUAGE sql
+STABLE
+AS $$
+WITH input_types AS (
+    SELECT unnest(target_type_ids) AS target_type_id
+),
+type_data AS (
+    SELECT
+        it.target_type_id,
+        tree.id AS type_id,
+        tree.base_type_id,
+        tree.name,
+        tree.restrictions,
+        tree.depth
+    FROM input_types it
+    CROSS JOIN LATERAL get_type_arborescence(it.target_type_id) tree
+),
+root_types AS (
+    SELECT
+        target_type_id,
+        name AS base_name
+    FROM type_data
+    WHERE base_type_id IS NULL
+),
+final_restrictions AS (
+    SELECT DISTINCT ON (target_type_id)
+        target_type_id,
+        restrictions
+    FROM type_data
+    ORDER BY target_type_id, depth DESC
+),
+ordered_scripts AS (
+    SELECT
+        td.target_type_id,
+        array_agg(tvs.script ORDER BY td.depth DESC) AS scripts
+    FROM type_data td
+    INNER JOIN type_verification_scripts tvs ON tvs.argument_type = td.type_id
+    GROUP BY td.target_type_id
+)
+SELECT
+    it.target_type_id,
+    rt.base_name,
+    COALESCE(fr.restrictions, '{}'::jsonb) AS restrictions,
+    COALESCE(os.scripts, ARRAY[]::TEXT[]) AS scripts
+FROM input_types it
+LEFT JOIN root_types rt ON rt.target_type_id = it.target_type_id
+LEFT JOIN final_restrictions fr ON fr.target_type_id = it.target_type_id
+LEFT JOIN ordered_scripts os ON os.target_type_id = it.target_type_id;
+$$;
+
+CREATE OR REPLACE FUNCTION get_nodes_verifications(node_ids UUID[], target_ruleset_id UUID)
+RETURNS TABLE (
+    node_id UUID,
+    base_name VARCHAR(255),
+    scripts TEXT[],
+    restrictions JSONB
+)
+LANGUAGE SQL
+STABLE
+AS $$
+SELECT
+    n.id as node_id,
+    gv.base_name as base_name,
+    gv.scripts as scripts,
+    gv.restrictions as restrictions
+FROM nodes n
+JOIN static_components_templates sct ON sct.id = n.template_id
+JOIN get_verifications(ARRAY[sct.type_id]) gv ON 1 = 1
+WHERE
+    n.id = ANY(node_ids) AND
+	n.ruleset_id = target_ruleset_id;
+$$;
+
+
 
 -- EXEMPLE OF USAGE
 -- SELECT jsonb_build_object(
@@ -91,42 +163,3 @@ $$;
 --   "final": true,
 --   "node_id": "a1b2c3d4-0000-0000-0000-000000000000"
 -- }
-
-CREATE OR REPLACE FUNCTION get_verifications(target_type_id UUID)
-RETURNS JSONB
-LANGUAGE plpgsql
-AS $$
-DECLARE
-    result JSONB;
-BEGIN
-    WITH type_data AS (
-        SELECT * FROM get_type_arborescence(target_type_id)
-    ),
-    -- Grab the final accumulated restrictions from the target type (depth = 0)
-    final_restrictions AS (
-        SELECT restrictions
-        FROM type_data
-        ORDER BY depth DESC
-        LIMIT 1
-    ),
-    -- Fetch scripts for all matching types in the tree
-    ordered_scripts AS (
-        SELECT
-            tvs.script,
-            td.depth
-        FROM type_data td
-        INNER JOIN type_verification_scripts tvs ON tvs.argument_type = td.id
-        ORDER BY td.depth DESC  -- Runs base type scripts first, then child overrides
-    )
-    SELECT
-        jsonb_build_object(
-            'restrictions', COALESCE((SELECT restrictions FROM final_restrictions), '{}'::jsonb),
-            'scripts', COALESCE((
-                SELECT jsonb_agg(script ORDER BY depth DESC)
-                FROM ordered_scripts
-            ), '[]'::jsonb)
-        ) INTO result;
-
-    RETURN result;
-END;
-$$;
