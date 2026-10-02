@@ -119,7 +119,7 @@ $$;
 
 CREATE OR REPLACE FUNCTION get_nodes_verifications(node_ids UUID[], target_ruleset_id UUID)
 RETURNS TABLE (
-    node_id UUID,
+    component_id UUID,
     base_name VARCHAR(255),
     scripts TEXT[],
     restrictions JSONB
@@ -128,7 +128,7 @@ LANGUAGE SQL
 STABLE
 AS $$
 SELECT
-    n.id as node_id,
+    sct.id as component_id,
     gv.base_name as base_name,
     gv.scripts as scripts,
     gv.restrictions as restrictions
@@ -140,7 +140,27 @@ WHERE
 	n.ruleset_id = target_ruleset_id;
 $$;
 
-
+CREATE OR REPLACE FUNCTION get_entity_verifications(entity_id UUID)
+RETURNS TABLE (
+    component_id UUID,
+    base_name VARCHAR(255),
+    scripts TEXT[],
+    restrictions JSONB
+)
+LANGUAGE SQL
+STABLE
+AS $$
+SELECT
+    sct.id as component_id,
+    gv.base_name as base_name,
+    gv.scripts as scripts,
+    gv.restrictions as restrictions
+FROM static_components sc
+JOIN static_components_templates sct ON sct.id = sc.template_id
+JOIN get_verifications(ARRAY[sct.type_id]) gv ON 1 = 1
+WHERE
+    sc.entity_id = entity_id
+$$;
 
 -- EXEMPLE OF USAGE
 -- SELECT jsonb_build_object(
