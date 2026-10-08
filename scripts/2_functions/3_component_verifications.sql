@@ -1,65 +1,3 @@
-CREATE OR REPLACE FUNCTION get_type_arborescence(target_type_id UUID)
-RETURNS TABLE (
-    id UUID,
-    base_type_id UUID,
-    name VARCHAR(255),
-    restrictions JSONB,
-    depth INT
-)
-LANGUAGE sql
-AS $$
-    WITH RECURSIVE get_base AS (
-        -- Anchor member: Start at the target type (depth = 0)
-        SELECT
-            t.id,
-            t.base_type_id,
-            t.name,
-            COALESCE(t.restrictions, '{}'::jsonb) AS restrictions,
-            0 AS depth
-        FROM types t
-        WHERE t.id = target_type_id
-
-        UNION ALL
-
-        -- Recursive member: Traverse up the inheritance chain
-        SELECT
-            base.id,
-            base.base_type_id,
-            base.name,
-            COALESCE(base.restrictions, '{}'::jsonb) || current.restrictions AS restrictions,
-            current.depth + 1 AS depth
-        FROM get_base AS current
-        JOIN types base ON current.base_type_id = base.id
-        WHERE current.base_type_id IS NOT NULL
-    )
-    SELECT
-        gb.id,
-        gb.base_type_id,
-        gb.name,
-        gb.restrictions,
-        gb.depth
-    FROM get_base gb;
-$$;
-
-CREATE OR REPLACE FUNCTION get_base_type_json(target_type_id UUID)
-RETURNS JSONB
-LANGUAGE plpgsql
-AS $$
-DECLARE
-    result JSONB;
-BEGIN
-    SELECT
-        jsonb_build_object(
-            'id', id,
-            'base', name,
-            'restrictions', restrictions
-        ) INTO result
-    FROM get_type_arborescence(target_type_id)
-    WHERE base_type_id IS NULL;
-    RETURN result;
-END;
-$$;
-
 CREATE OR REPLACE FUNCTION get_verifications(target_type_ids UUID[])
 RETURNS TABLE (
     target_type_id UUID,
@@ -116,6 +54,24 @@ LEFT JOIN root_types rt ON rt.target_type_id = it.target_type_id
 LEFT JOIN final_restrictions fr ON fr.target_type_id = it.target_type_id
 LEFT JOIN ordered_scripts os ON os.target_type_id = it.target_type_id;
 $$;
+-- EXEMPLE OF USAGE
+--
+-- SELECT * FROM get_verifications(
+--     ARRAY['c1a87c0a-6cc8-4108-ac23-850af12ed2b1'::uuid, 'c2a87c0a-6cc8-4108-ac23-850af12ed2b2'::uuid]
+-- );
+--
+-- and you will get
+--
+-- |target_type_id              |base_name          |restrictions           |scripts                    |
+-- |"c1a87c0a-6cc8-4108-..."    |"number"           |{"min": 1, "max": 20}  |["script 1", "script 2"]   |
+-- |"c2a87c0a-6cc8-4108-..."    |"string"           |{"max_length": 255}    |["script 1"]               |
+--
+-- Description:
+-- This function processes an array of target type IDs by traversing their type arborescence,
+-- extracting root base names, aggregating accumulated restrictions from the inheritance tree,
+-- and collecting verification scripts ordered by depth to provide comprehensive validation metadata.
+-- it is mostly used as a code factorisation to avoid code duplication.
+
 
 CREATE OR REPLACE FUNCTION get_nodes_verifications(node_ids UUID[], target_ruleset_id UUID)
 RETURNS TABLE (
@@ -139,6 +95,23 @@ WHERE
     n.id = ANY(node_ids) AND
 	n.ruleset_id = target_ruleset_id;
 $$;
+-- EXEMPLE OF USAGE
+--
+-- SELECT * FROM get_nodes_verifications(
+--     ARRAY['458b7c0a-6cc8-4108-ac23-850af12ed2b7'::uuid, '789b7c0a-6cc8-4108-ac23-850af12ed2b8'::uuid],
+--     '123b7c0a-6cc8-4108-ac23-850af12ed2b9'::uuid
+-- );
+--
+-- and you will get
+--
+-- |component_id                |base_name          |scripts                    |restrictions           |
+-- |"0000-38473-73434-39754"    |"number"           |["script 1", "script 2"]   |{"min": 1, "max": 20}  |
+-- |"0000-38473-73434-98433"    |"string"           |["script 1"]               |{"max_length": 255}    |
+--
+-- Description:
+-- This function retrieves the necessary verification details (base names, execution scripts, and validation restrictions)
+-- for a specific array of node IDs filtered by a target ruleset, enabling the API to validate node-associated values correctly.
+-- WARNING: the scripts still only accepts the component id as key for the data you will pass them.
 
 CREATE OR REPLACE FUNCTION get_entity_verifications(entity_id UUID)
 RETURNS TABLE (
@@ -161,25 +134,16 @@ JOIN get_verifications(ARRAY[sct.type_id]) gv ON 1 = 1
 WHERE
     sc.entity_id = entity_id
 $$;
-
 -- EXEMPLE OF USAGE
--- SELECT jsonb_build_object(
---     'node_id', 'a1b2c3d4-0000-0000-0000-000000000000'::uuid,
---     'final', true,
---     -- put the id of the top level type
---     'type', get_base_type_json('458b7c0a-6cc8-4108-ac23-850af12ed2b7')
--- );
+--
+-- SELECT * FROM get_entity_verifications('458b7c0a-6cc8-4108-ac23-850af12ed2b7'::uuid);
+--
 -- and you will get
 --
--- {
---   "type": {
---     "id": "458b7c0a-6cc8-4108-ac23-850af12ed2b7",
---     "base": "number",
---     "restrictions": {
---       "max": 22,
---       "min": 0
---     }
---   },
---   "final": true,
---   "node_id": "a1b2c3d4-0000-0000-0000-000000000000"
--- }
+-- |component_id                |base_name          |scripts                    |restrictions           |
+-- |"0000-38473-73434-39754"    |"number"           |["script 1", "script 2"]   |{"min": 1, "max": 20}  |
+-- |"0000-38473-73434-98433"    |"string"           |["script 1"]               |{"max_length": 255}    |
+--
+-- Description:
+-- This function helps the developer getting the necessary informations for the api to verify the validity
+-- of the values entered in the associated components.
