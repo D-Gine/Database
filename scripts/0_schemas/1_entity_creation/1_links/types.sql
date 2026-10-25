@@ -1,0 +1,31 @@
+ALTER TABLE "types"
+ADD FOREIGN KEY("base_type_id") REFERENCES "types"("id")
+ON UPDATE NO ACTION ON DELETE CASCADE;
+
+ALTER TABLE "link_enums_tags"
+ADD FOREIGN KEY("tag_id") REFERENCES "tags"("id")
+ON UPDATE NO ACTION ON DELETE CASCADE;
+
+ALTER TABLE "link_enums_tags"
+ADD FOREIGN KEY("enum_id") REFERENCES "enums"("id")
+ON UPDATE NO ACTION ON DELETE CASCADE;
+
+ALTER TABLE "enums"
+ADD FOREIGN KEY("ruleset_id") REFERENCES "rulesets"("id")
+ON UPDATE NO ACTION ON DELETE CASCADE;
+
+-- ALTER TABLE "types"
+-- ADD FOREIGN KEY("id") REFERENCES "type_verification_scripts"("argument_type")
+-- ON UPDATE NO ACTION ON DELETE CASCADE;
+
+ALTER TABLE "tags"
+ADD FOREIGN KEY("ruleset_id") REFERENCES "rulesets"("id")
+ON UPDATE NO ACTION ON DELETE CASCADE;
+
+-- ALTER TABLE "type_generation_scripts"
+-- ADD FOREIGN KEY("type_id") REFERENCES "types"("id")
+-- ON UPDATE NO ACTION ON DELETE CASCADE;
+
+ALTER TABLE "types"
+ADD FOREIGN KEY("ruleset_id") REFERENCES "rulesets"("id")
+ON UPDATE NO ACTION ON DELETE CASCADE;
