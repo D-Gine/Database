@@ -12,5 +12,6 @@ COPY ./scripts/0_schemas /docker-entrypoint-initdb.d/
 COPY ./scripts/2_functions /docker-entrypoint-initdb.d/2_functions
 
 # RULESETS
-COPY ./scripts/1_fill /docker-entrypoint-initdb.d/
+ARG FILL_DIR=1_fill
+COPY ./scripts/${FILL_DIR} /docker-entrypoint-initdb.d/
 # COPY ./scripts/fill/srd5_poc.sql   /docker-entrypoint-initdb.d/10_srd5.sql
