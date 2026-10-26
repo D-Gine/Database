@@ -2,12 +2,12 @@
 -- PostgreSQL database dump
 --
 
-\restrict rel8XiPdB5zVk2KoyesPwOPDdnET9aBoJtjFwKT6kQ4VGU4mkOTnet3oBDBR0wJ
+\restrict LY3uTq7CfFsWmD1Kb1dpZjJ74iU5fGgJVN67zxFP5PCeQ9EXgt9f39t9icNvNpx
 
 -- Dumped from database version 16.15
 -- Dumped by pg_dump version 16.14
 
--- Started on 2026-10-23 11:42:00 UTC
+-- Started on 2026-10-26 05:09:03 UTC
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -21,7 +21,7 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- TOC entry 3585 (class 0 OID 16441)
+-- TOC entry 3592 (class 0 OID 16443)
 -- Dependencies: 223
 -- Data for Name: rulesets; Type: TABLE DATA; Schema: public; Owner: prout
 --
@@ -30,7 +30,7 @@ INSERT INTO public.rulesets VALUES ('0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'tes
 
 
 --
--- TOC entry 3589 (class 0 OID 16470)
+-- TOC entry 3596 (class 0 OID 16472)
 -- Dependencies: 227
 -- Data for Name: types; Type: TABLE DATA; Schema: public; Owner: prout
 --
@@ -49,18 +49,21 @@ INSERT INTO public.types VALUES ('00a5d535-e46f-42ef-b0d3-7d572adde9e8', '0e3196
 INSERT INTO public.types VALUES ('31f387c2-1288-4b79-a851-d201476ef555', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'b4258b56-81d6-4a03-84a1-0edab70281f4', 'Bard Spell', '{"tags": ["080bae99-829d-4fc9-91c7-6b43b06b24b0", "2a9bf94f-1db4-48c2-9a60-63a0f65d3493"]}');
 INSERT INTO public.types VALUES ('753a2e09-60e4-4bb8-9553-9c1ef4662afa', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'b4258b56-81d6-4a03-84a1-0edab70281f4', 'Barbarian path', '{"tags": ["e5a7d58f-7842-4bac-ae72-0c344883303f", "dcc6c81e-d887-4df0-ab1f-76d0df97e63d"]}');
 INSERT INTO public.types VALUES ('7786f8ca-40c0-4b22-8319-8c38da55f51c', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', '458b7c0a-6cc8-4108-ac23-850af12ed2b7', 'Level', '{"max": 20, "min": 1}');
+INSERT INTO public.types VALUES ('6d08852f-9eec-479b-b03d-f1318b3161a8', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', '458b7c0a-6cc8-4108-ac23-850af12ed2b7', 'Hp', '{"min": 0}');
+INSERT INTO public.types VALUES ('830ed1a0-2dcb-4b01-b7e8-6e8fb419ef97', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', '458b7c0a-6cc8-4108-ac23-850af12ed2b7', 'current hp', NULL);
 
 
 --
--- TOC entry 3587 (class 0 OID 16457)
+-- TOC entry 3594 (class 0 OID 16459)
 -- Dependencies: 225
 -- Data for Name: dynamic_components_templates; Type: TABLE DATA; Schema: public; Owner: prout
 --
 
+INSERT INTO public.dynamic_components_templates VALUES ('2bb88ea8-9fe1-4b7b-85ca-bc15aa7201d0', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'current hp', 'current hp don''t loose them', '830ed1a0-2dcb-4b01-b7e8-6e8fb419ef97');
 
 
 --
--- TOC entry 3586 (class 0 OID 16449)
+-- TOC entry 3593 (class 0 OID 16451)
 -- Dependencies: 224
 -- Data for Name: static_components_templates; Type: TABLE DATA; Schema: public; Owner: prout
 --
@@ -71,27 +74,30 @@ INSERT INTO public.static_components_templates VALUES ('95399172-0f43-4e10-8024-
 INSERT INTO public.static_components_templates VALUES ('0c9c9ab8-c65e-41f4-9207-282eab61f92e', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'Barbarian path', 'barbarian path', '753a2e09-60e4-4bb8-9553-9c1ef4662afa');
 INSERT INTO public.static_components_templates VALUES ('c1d8156c-ad1a-4df0-94e8-11dba7aae8f8', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'Class', 'class', 'd3c23a4e-780b-49aa-a85a-802ed877c57d');
 INSERT INTO public.static_components_templates VALUES ('127ffe19-a102-4a5f-bf10-7773fab04fd1', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'Level', 'Base level', '7786f8ca-40c0-4b22-8319-8c38da55f51c');
+INSERT INTO public.static_components_templates VALUES ('973937ff-bf06-4fb7-8363-a4a0d35ad511', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'Hp', 'Max hp', '6d08852f-9eec-479b-b03d-f1318b3161a8');
 
 
 --
--- TOC entry 3588 (class 0 OID 16465)
+-- TOC entry 3595 (class 0 OID 16467)
 -- Dependencies: 226
 -- Data for Name: component_dependency; Type: TABLE DATA; Schema: public; Owner: prout
 --
 
+INSERT INTO public.component_dependency VALUES ('973937ff-bf06-4fb7-8363-a4a0d35ad511', '2bb88ea8-9fe1-4b7b-85ca-bc15aa7201d0');
 
 
 --
--- TOC entry 3579 (class 0 OID 16396)
+-- TOC entry 3586 (class 0 OID 16396)
 -- Dependencies: 217
 -- Data for Name: entities; Type: TABLE DATA; Schema: public; Owner: prout
 --
 
 INSERT INTO public.entities VALUES ('c1f8b452-91fd-4c0a-bf93-48a6d03d7846', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'test', 'test character');
+INSERT INTO public.entities VALUES ('41371b0d-33c9-4a97-b902-c0a1b0108348', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'Freebird Freeman', 'il ne savais pas que c''etait impossible ducoup il s''est assis 20 ans');
 
 
 --
--- TOC entry 3581 (class 0 OID 16412)
+-- TOC entry 3588 (class 0 OID 16414)
 -- Dependencies: 219
 -- Data for Name: dynamic_components; Type: TABLE DATA; Schema: public; Owner: prout
 --
@@ -99,7 +105,7 @@ INSERT INTO public.entities VALUES ('c1f8b452-91fd-4c0a-bf93-48a6d03d7846', '0e3
 
 
 --
--- TOC entry 3590 (class 0 OID 16478)
+-- TOC entry 3597 (class 0 OID 16480)
 -- Dependencies: 228
 -- Data for Name: enums; Type: TABLE DATA; Schema: public; Owner: prout
 --
@@ -118,7 +124,7 @@ INSERT INTO public.enums VALUES ('f552b243-81fb-4901-9b09-a140de4660f4', '0e3196
 
 
 --
--- TOC entry 3583 (class 0 OID 16428)
+-- TOC entry 3590 (class 0 OID 16430)
 -- Dependencies: 221
 -- Data for Name: next_scripts; Type: TABLE DATA; Schema: public; Owner: prout
 --
@@ -128,21 +134,22 @@ INSERT INTO public.next_scripts VALUES ('8640865c-9493-4d58-9f32-ce875241b9ab', 
 
 
 --
--- TOC entry 3582 (class 0 OID 16420)
+-- TOC entry 3589 (class 0 OID 16422)
 -- Dependencies: 220
 -- Data for Name: nodes; Type: TABLE DATA; Schema: public; Owner: prout
 --
 
-INSERT INTO public.nodes VALUES ('4fbb7e27-8e26-47dd-bea1-f687cc4a98db', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'a345c59c-4bea-4bef-b0e9-36d774d9111e', NULL, '{}');
 INSERT INTO public.nodes VALUES ('5add1a83-bd43-4385-b04a-c3797138d684', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'c1d8156c-ad1a-4df0-94e8-11dba7aae8f8', 'bc99527e-a6d2-4634-9b5a-8861519bf194', '{}');
 INSERT INTO public.nodes VALUES ('5b76ec32-3f44-402c-80c7-27716cce8492', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', '08e6a40e-4f5e-47f7-bd91-7118f4ce4d29', '8640865c-9493-4d58-9f32-ce875241b9ab', '{"next": "4fbb7e27-8e26-47dd-bea1-f687cc4a98db"}');
 INSERT INTO public.nodes VALUES ('671736db-cdfc-46b9-8a2e-f20a62b7a36f', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', '95399172-0f43-4e10-8024-9c63c0373fc0', '8640865c-9493-4d58-9f32-ce875241b9ab', '{"next": "4fbb7e27-8e26-47dd-bea1-f687cc4a98db"}');
 INSERT INTO public.nodes VALUES ('395d85bf-8fa6-434f-aa8f-933ef245e0eb', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', '0c9c9ab8-c65e-41f4-9207-282eab61f92e', '8640865c-9493-4d58-9f32-ce875241b9ab', '{"next": "4fbb7e27-8e26-47dd-bea1-f687cc4a98db"}');
 INSERT INTO public.nodes VALUES ('3e4ea0d2-1270-4816-bd30-e9f2108db35d', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', '127ffe19-a102-4a5f-bf10-7773fab04fd1', '8640865c-9493-4d58-9f32-ce875241b9ab', '{"next": "5add1a83-bd43-4385-b04a-c3797138d684"}');
+INSERT INTO public.nodes VALUES ('74460e93-5e8e-4fef-bbb7-0ca529bdef6d', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', '973937ff-bf06-4fb7-8363-a4a0d35ad511', NULL, '{"next": "4fbb7e27-8e26-47dd-bea1-f687cc4a98db"}');
+INSERT INTO public.nodes VALUES ('4fbb7e27-8e26-47dd-bea1-f687cc4a98db', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'a345c59c-4bea-4bef-b0e9-36d774d9111e', '8640865c-9493-4d58-9f32-ce875241b9ab', '{"next": "74460e93-5e8e-4fef-bbb7-0ca529bdef6d"}');
 
 
 --
--- TOC entry 3584 (class 0 OID 16436)
+-- TOC entry 3591 (class 0 OID 16438)
 -- Dependencies: 222
 -- Data for Name: first_nodes; Type: TABLE DATA; Schema: public; Owner: prout
 --
@@ -151,7 +158,7 @@ INSERT INTO public.first_nodes VALUES ('3e4ea0d2-1270-4816-bd30-e9f2108db35d', '
 
 
 --
--- TOC entry 3591 (class 0 OID 16486)
+-- TOC entry 3598 (class 0 OID 16488)
 -- Dependencies: 229
 -- Data for Name: tags; Type: TABLE DATA; Schema: public; Owner: prout
 --
@@ -166,7 +173,7 @@ INSERT INTO public.tags VALUES ('dcc6c81e-d887-4df0-ab1f-76d0df97e63d', '0e3196a
 
 
 --
--- TOC entry 3592 (class 0 OID 16492)
+-- TOC entry 3599 (class 0 OID 16494)
 -- Dependencies: 230
 -- Data for Name: link_enums_tags; Type: TABLE DATA; Schema: public; Owner: prout
 --
@@ -194,24 +201,30 @@ INSERT INTO public.link_enums_tags VALUES ('33d4255f-f405-4bb5-add5-f85e0ff43e5b
 
 
 --
--- TOC entry 3580 (class 0 OID 16404)
+-- TOC entry 3587 (class 0 OID 16404)
 -- Dependencies: 218
 -- Data for Name: static_components; Type: TABLE DATA; Schema: public; Owner: prout
 --
 
 INSERT INTO public.static_components VALUES ('d0628dac-42bd-470c-9431-221aa3d1a710', 'c1f8b452-91fd-4c0a-bf93-48a6d03d7846', '127ffe19-a102-4a5f-bf10-7773fab04fd1', '4');
+INSERT INTO public.static_components VALUES ('e5f96089-2a47-49d5-baba-99f9ff2f0be2', '41371b0d-33c9-4a97-b902-c0a1b0108348', 'c1d8156c-ad1a-4df0-94e8-11dba7aae8f8', '"barbarian"');
+INSERT INTO public.static_components VALUES ('3daa647b-2fd1-48f8-808e-7b72079a96d9', '41371b0d-33c9-4a97-b902-c0a1b0108348', '127ffe19-a102-4a5f-bf10-7773fab04fd1', '10');
+INSERT INTO public.static_components VALUES ('05c08e30-4516-4a02-be39-f24845d717f3', '41371b0d-33c9-4a97-b902-c0a1b0108348', '973937ff-bf06-4fb7-8363-a4a0d35ad511', '200');
+INSERT INTO public.static_components VALUES ('c7d7153d-9e67-4868-b674-532d1796ff25', '41371b0d-33c9-4a97-b902-c0a1b0108348', 'a345c59c-4bea-4bef-b0e9-36d774d9111e', '{"cha": 10, "con": 10, "dex": 9, "int": 10, "str": 10, "wis": 10}');
 
 
 --
--- TOC entry 3593 (class 0 OID 16497)
+-- TOC entry 3600 (class 0 OID 16499)
 -- Dependencies: 231
 -- Data for Name: type_generation_scripts; Type: TABLE DATA; Schema: public; Owner: prout
 --
 
+INSERT INTO public.type_generation_scripts VALUES ('abc1f08d-4816-4abc-b279-1e58fd873c89', '830ed1a0-2dcb-4b01-b7e8-6e8fb419ef97', 'def generate_type(restrictions, component_list):
+    return component_list["973937ff-bf06-4fb7-8363-a4a0d35ad511"]');
 
 
 --
--- TOC entry 3594 (class 0 OID 16505)
+-- TOC entry 3601 (class 0 OID 16507)
 -- Dependencies: 232
 -- Data for Name: type_verification_scripts; Type: TABLE DATA; Schema: public; Owner: prout
 --
@@ -227,6 +240,12 @@ INSERT INTO public.type_verification_scripts VALUES ('675cc168-7659-46c4-815d-80
 INSERT INTO public.type_verification_scripts VALUES ('79e18e0a-3ac8-4bd4-a020-2c364378baa4', '01858199-d256-4071-90da-c212704bd7da', 'result = proutopipi');
 INSERT INTO public.type_verification_scripts VALUES ('33444d31-6bf9-4441-97c8-19ed2548b4d5', '46f3fe59-7eca-4529-b290-ed315e302e12', 'def validate_type(value, restrictions, component_list):
     return None');
+INSERT INTO public.type_verification_scripts VALUES ('d193655c-a647-4f30-a93d-f5509be87a9f', '6d08852f-9eec-479b-b03d-f1318b3161a8', 'def validate_type(value, restrictions, component_list):
+    max = component_list["127ffe19-a102-4a5f-bf10-7773fab04fd1"] * 5
+    if value >  max:
+        return "too much hps for level (only 5 hp per level) got {} max {}".format(value,  max)
+    return None
+');
 INSERT INTO public.type_verification_scripts VALUES ('f08cb748-2931-43c6-8493-7f6f5684c6a3', '509b9865-a9e7-40e8-a7e0-071c7fda2f97', 'def validate_type(value, restrictions, component_list):
     keys = ["dex","cha","int","str","wis","con"]
     sum = 0
@@ -235,14 +254,13 @@ INSERT INTO public.type_verification_scripts VALUES ('f08cb748-2931-43c6-8493-7f
     max = component_list["127ffe19-a102-4a5f-bf10-7773fab04fd1"] * 6
     if sum > max:
         return "too much stats for level (only 6 points per level) got {} max {}".format(sum, max)
-    return None
 ');
 
 
--- Completed on 2026-10-23 11:42:00 UTC
+-- Completed on 2026-10-26 05:09:03 UTC
 
 --
 -- PostgreSQL database dump complete
 --
 
-\unrestrict rel8XiPdB5zVk2KoyesPwOPDdnET9aBoJtjFwKT6kQ4VGU4mkOTnet3oBDBR0wJ
+\unrestrict LY3uTq7CfFsWmD1Kb1dpZjJ74iU5fGgJVN67zxFP5PCeQ9EXgt9f39t9icNvNpx

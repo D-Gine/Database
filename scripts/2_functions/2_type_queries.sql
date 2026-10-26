@@ -33,3 +33,27 @@ $$;
 -- Description:
 -- This function fetches the root base type details (including ID, base name, and restrictions)
 -- for a given target type ID by evaluating its type arborescence, and returns the result as a structured JSONB object.
+
+
+CREATE OR REPLACE FUNCTION type_generation(type UUID)
+RETURNS TABLE (
+    id UUID,
+    type_name VARCHAR(255),
+    restrictions JSONB,
+    script TEXT
+)
+LANGUAGE sql
+AS $$
+    SELECT
+        ta.id AS id,
+        ta.name AS type_name,
+        ta.restrictions AS restrictions,
+        tgs.script as script
+    FROM get_type_arborescence(type) ta
+    LEFT JOIN type_generation_scripts tgs ON tgs.type_id = ta.id
+    ORDER BY
+        (tgs.script IS NOT NULL) DESC,
+        CASE WHEN tgs.script IS NOT NULL THEN ta.depth END ASC,
+        CASE WHEN tgs.script IS NULL THEN (ta.base_type_id IS NULL) END DESC
+    LIMIT 1
+$$;

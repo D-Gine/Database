@@ -11,7 +11,8 @@ CREATE TABLE IF NOT EXISTS "static_components" (
 	"entity_id" UUID NOT NULL,
 	"template_id" UUID NOT NULL,
 	"value" JSONB NOT NULL,
-	PRIMARY KEY("id")
+	PRIMARY KEY("id"),
+	CONSTRAINT unique_entity_template UNIQUE ("entity_id", "template_id")
 );
 
 CREATE TABLE IF NOT EXISTS "dynamic_components" (
