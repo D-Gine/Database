@@ -21,6 +21,27 @@ AS $$
 	 	template_id NOT in (SELECT * FROM new_values)
 $$;
 
+CREATE OR REPLACE FUNCTION update_dynamic_components(entity_id UUID, component_map JSONB)
+RETURNS void
+LANGUAGE sql
+AS $$
+    WITH new_values AS (
+        INSERT INTO dynamic_components (entity_id, template_id, value)
+        SELECT
+            entity_id AS entity_id,
+            m.n::UUID AS template_id,
+            m.v AS value
+        FROM jsonb_each(component_map) AS m(n, v)
+        ON CONFLICT (entity_id, template_id)
+        DO UPDATE SET value = EXCLUDED.value
+        RETURNING template_id
+    )
+    DELETE FROM dynamic_components
+    WHERE
+        entity_id = entity_id
+        AND template_id NOT IN (SELECT template_id FROM new_values);
+$$;
+
 CREATE OR REPLACE FUNCTION get_static_components(entity_id UUID)
 RETURNS TABLE (
     template_id UUID,
