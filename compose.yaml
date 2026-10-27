@@ -1,7 +1,10 @@
 services:
   dengine-db:
     container_name: dengine-db-${VERSION}
-    build: ./
+    build:
+      context: ./
+      args:
+        FILL_DIR: ${FILL_DIR:-1_fill_test} # Uses CLI_ARG if provided, otherwise 'default_value'
     restart: on-failure
     environment:
       - PGPORT=${DB_PORT}
