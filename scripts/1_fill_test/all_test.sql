@@ -133,8 +133,47 @@ INSERT INTO public.enums VALUES ('f552b243-81fb-4901-9b09-a140de4660f4', '0e3196
 -- Data for Name: next_scripts; Type: TABLE DATA; Schema: public; Owner: prout
 --
 
-INSERT INTO public.next_scripts VALUES ('bc99527e-a6d2-4634-9b5a-8861519bf194', '// met dans result la la node de la classe choisie');
-INSERT INTO public.next_scripts VALUES ('8640865c-9493-4d58-9f32-ce875241b9ab', 'result = params.next // il n''y a que un seul next possible, simple');
+INSERT INTO public.next_scripts VALUES ('bc99527e-a6d2-4634-9b5a-8861519bf194', '
+CLASS_NODE = "5add1a83-bd43-4385-b04a-c3797138d684"
+STATS_NODE = "4fbb7e27-8e26-47dd-bea1-f687cc4a98db"
+
+def is_node_in_tree(node_id, current_tree):
+    tree = current_tree
+    while type(tree) == "dict":
+        if tree.get("node_id") == node_id:
+            return True
+        tree = tree.get("next")
+    return False
+
+def get_next_node(node_values, current_tree, target_node, params):
+    if target_node not in node_values:
+        return None
+
+    value = node_values.get(CLASS_NODE)
+    if type(value) != "dict" or len(value.get("classes", [])) == 0:
+        return None
+
+    possibilities = {
+        "5c93ce27-c2d0-4924-916c-abefabc0ccfd": "5b76ec32-3f44-402c-80c7-27716cce8492",  # Sorcerer -> Sorcerer spells
+        "a87fa8f3-d56a-49ec-8bd2-d62b7f07c367": "671736db-cdfc-46b9-8a2e-f20a62b7a36f",  # Bard -> Bard spells
+        "33d4255f-f405-4bb5-add5-f85e0ff43e5b": "395d85bf-8fa6-434f-aa8f-933ef245e0eb",  # Barbarian -> Barbarian path
+    }
+
+    for entry in value["classes"]:
+        block = possibilities.get(entry.get("class"))
+        if block == None:
+            return None
+        if not is_node_in_tree(block, current_tree):
+            return block
+
+    return STATS_NODE
+');
+INSERT INTO public.next_scripts VALUES ('8640865c-9493-4d58-9f32-ce875241b9ab', '
+def get_next_node(node_values, current_tree, target_node, params):
+    if target_node not in node_values:
+        return None
+    return params.get("next")
+');
 
 
 --
