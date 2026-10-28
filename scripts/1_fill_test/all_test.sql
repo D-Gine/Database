@@ -43,7 +43,6 @@ INSERT INTO public.types VALUES ('46f3fe59-7eca-4529-b290-ed315e302e12', '0e3196
 INSERT INTO public.types VALUES ('21ecaea4-696d-4e7c-8a31-20522674552f', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', NULL, 'list', NULL);
 INSERT INTO public.types VALUES ('b4258b56-81d6-4a03-84a1-0edab70281f4', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', NULL, 'enum', NULL);
 INSERT INTO public.types VALUES ('509b9865-a9e7-40e8-a7e0-071c7fda2f97', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', '46f3fe59-7eca-4529-b290-ed315e302e12', 'Stat pool', '{"interface": {"cha": "f79c6225-baf0-45af-81c6-8eb45d1a961f", "con": "f79c6225-baf0-45af-81c6-8eb45d1a961f", "dex": "f79c6225-baf0-45af-81c6-8eb45d1a961f", "int": "f79c6225-baf0-45af-81c6-8eb45d1a961f", "str": "f79c6225-baf0-45af-81c6-8eb45d1a961f", "wis": "f79c6225-baf0-45af-81c6-8eb45d1a961f"}}');
-INSERT INTO public.types VALUES ('d3c23a4e-780b-49aa-a85a-802ed877c57d', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'b4258b56-81d6-4a03-84a1-0edab70281f4', 'Class', '{"tags": ["64f73b11-5699-46a2-9f63-4db41f18e472"]}');
 INSERT INTO public.types VALUES ('00a5d535-e46f-42ef-b0d3-7d572adde9e8', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'b4258b56-81d6-4a03-84a1-0edab70281f4', 'Sorcerer spell', '{"tags": ["080bae99-829d-4fc9-91c7-6b43b06b24b0", "110ee2a7-d94a-416f-b66d-4d26927fc268"]}');
 INSERT INTO public.types VALUES ('31f387c2-1288-4b79-a851-d201476ef555', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'b4258b56-81d6-4a03-84a1-0edab70281f4', 'Bard Spell', '{"tags": ["080bae99-829d-4fc9-91c7-6b43b06b24b0", "2a9bf94f-1db4-48c2-9a60-63a0f65d3493"]}');
 INSERT INTO public.types VALUES ('753a2e09-60e4-4bb8-9553-9c1ef4662afa', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'b4258b56-81d6-4a03-84a1-0edab70281f4', 'Barbarian path', '{"tags": ["e5a7d58f-7842-4bac-ae72-0c344883303f", "dcc6c81e-d887-4df0-ab1f-76d0df97e63d"]}');
@@ -52,6 +51,11 @@ INSERT INTO public.types VALUES ('6d08852f-9eec-479b-b03d-f1318b3161a8', '0e3196
 INSERT INTO public.types VALUES ('830ed1a0-2dcb-4b01-b7e8-6e8fb419ef97', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', '458b7c0a-6cc8-4108-ac23-850af12ed2b7', 'current hp', NULL);
 INSERT INTO public.types VALUES ('6109eca7-5b21-4c5f-906c-ae882ceb353c', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', '01858199-d256-4071-90da-c212704bd7da', 'email', '{"regex_expression": "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"}');
 INSERT INTO public.types VALUES ('176299e6-5cb7-4728-9808-46bcf391250f', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'b4258b56-81d6-4a03-84a1-0edab70281f4', 'object', '{"tags": ["0e8ef112-a906-4c50-8c68-26501212eaa0"]}');
+-- Class = {"classes": [{"class": <enum id>, "level": <1..20>}, ...]}
+INSERT INTO public.types VALUES ('d3c23a4e-780b-49aa-a85a-802ed877c57d', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'b4258b56-81d6-4a03-84a1-0edab70281f4', 'Class choice', '{"tags": ["64f73b11-5699-46a2-9f63-4db41f18e472"]}');
+INSERT INTO public.types VALUES ('b7c1d4e2-3a5f-4e8b-9c21-6f0a7d5e1b34', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', '46f3fe59-7eca-4529-b290-ed315e302e12', 'Class entry', '{"interface": {"class": "d3c23a4e-780b-49aa-a85a-802ed877c57d", "level": "7786f8ca-40c0-4b22-8319-8c38da55f51c"}}');
+INSERT INTO public.types VALUES ('c8d2e5f3-4b60-4f9c-8d32-7a1b8e6f2c45', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', '21ecaea4-696d-4e7c-8a31-20522674552f', 'Class list', '{"type": "b7c1d4e2-3a5f-4e8b-9c21-6f0a7d5e1b34", "min_length": 1}');
+INSERT INTO public.types VALUES ('d9e3f6a4-5c71-40ad-9e43-8b2c9f7a3d56', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', '46f3fe59-7eca-4529-b290-ed315e302e12', 'Classes', '{"interface": {"classes": "c8d2e5f3-4b60-4f9c-8d32-7a1b8e6f2c45"}}');
 
 
 --
@@ -76,7 +80,7 @@ INSERT INTO public.static_components_templates VALUES ('a345c59c-4bea-4bef-b0e9-
 INSERT INTO public.static_components_templates VALUES ('08e6a40e-4f5e-47f7-bd91-7118f4ce4d29', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'Sorcerer spells', 'sorcerer spells', '00a5d535-e46f-42ef-b0d3-7d572adde9e8');
 INSERT INTO public.static_components_templates VALUES ('95399172-0f43-4e10-8024-9c63c0373fc0', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'Bard spells', 'bard spells', '31f387c2-1288-4b79-a851-d201476ef555');
 INSERT INTO public.static_components_templates VALUES ('0c9c9ab8-c65e-41f4-9207-282eab61f92e', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'Barbarian path', 'barbarian path', '753a2e09-60e4-4bb8-9553-9c1ef4662afa');
-INSERT INTO public.static_components_templates VALUES ('c1d8156c-ad1a-4df0-94e8-11dba7aae8f8', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'Class', 'class', 'd3c23a4e-780b-49aa-a85a-802ed877c57d');
+INSERT INTO public.static_components_templates VALUES ('c1d8156c-ad1a-4df0-94e8-11dba7aae8f8', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'Class', 'class', 'd9e3f6a4-5c71-40ad-9e43-8b2c9f7a3d56');
 INSERT INTO public.static_components_templates VALUES ('127ffe19-a102-4a5f-bf10-7773fab04fd1', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'Level', 'Base level', '7786f8ca-40c0-4b22-8319-8c38da55f51c');
 INSERT INTO public.static_components_templates VALUES ('973937ff-bf06-4fb7-8363-a4a0d35ad511', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'Hp', 'Max hp', '6d08852f-9eec-479b-b03d-f1318b3161a8');
 
@@ -133,7 +137,9 @@ INSERT INTO public.enums VALUES ('f552b243-81fb-4901-9b09-a140de4660f4', '0e3196
 -- Data for Name: next_scripts; Type: TABLE DATA; Schema: public; Owner: prout
 --
 
-INSERT INTO public.next_scripts VALUES ('bc99527e-a6d2-4634-9b5a-8861519bf194', '
+INSERT INTO public.next_scripts VALUES ('bc99527e-a6d2-4634-9b5a-8861519bf194', '# multiclasse choice
+#   node_values[CLASS_NODE] = {"classes": [{"class": enum_id, "level": n}, ...]}
+#   Return None while the next node cannot be determined.
 CLASS_NODE = "5add1a83-bd43-4385-b04a-c3797138d684"
 STATS_NODE = "4fbb7e27-8e26-47dd-bea1-f687cc4a98db"
 
@@ -183,9 +189,9 @@ def get_next_node(node_values, current_tree, target_node, params):
 --
 
 INSERT INTO public.nodes VALUES ('5add1a83-bd43-4385-b04a-c3797138d684', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'c1d8156c-ad1a-4df0-94e8-11dba7aae8f8', 'bc99527e-a6d2-4634-9b5a-8861519bf194', '{}');
-INSERT INTO public.nodes VALUES ('5b76ec32-3f44-402c-80c7-27716cce8492', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', '08e6a40e-4f5e-47f7-bd91-7118f4ce4d29', '8640865c-9493-4d58-9f32-ce875241b9ab', '{"next": "4fbb7e27-8e26-47dd-bea1-f687cc4a98db"}');
-INSERT INTO public.nodes VALUES ('671736db-cdfc-46b9-8a2e-f20a62b7a36f', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', '95399172-0f43-4e10-8024-9c63c0373fc0', '8640865c-9493-4d58-9f32-ce875241b9ab', '{"next": "4fbb7e27-8e26-47dd-bea1-f687cc4a98db"}');
-INSERT INTO public.nodes VALUES ('395d85bf-8fa6-434f-aa8f-933ef245e0eb', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', '0c9c9ab8-c65e-41f4-9207-282eab61f92e', '8640865c-9493-4d58-9f32-ce875241b9ab', '{"next": "4fbb7e27-8e26-47dd-bea1-f687cc4a98db"}');
+INSERT INTO public.nodes VALUES ('5b76ec32-3f44-402c-80c7-27716cce8492', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', '08e6a40e-4f5e-47f7-bd91-7118f4ce4d29', 'bc99527e-a6d2-4634-9b5a-8861519bf194', '{}');
+INSERT INTO public.nodes VALUES ('671736db-cdfc-46b9-8a2e-f20a62b7a36f', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', '95399172-0f43-4e10-8024-9c63c0373fc0', 'bc99527e-a6d2-4634-9b5a-8861519bf194', '{}');
+INSERT INTO public.nodes VALUES ('395d85bf-8fa6-434f-aa8f-933ef245e0eb', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', '0c9c9ab8-c65e-41f4-9207-282eab61f92e', 'bc99527e-a6d2-4634-9b5a-8861519bf194', '{}');
 INSERT INTO public.nodes VALUES ('3e4ea0d2-1270-4816-bd30-e9f2108db35d', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', '127ffe19-a102-4a5f-bf10-7773fab04fd1', '8640865c-9493-4d58-9f32-ce875241b9ab', '{"next": "5add1a83-bd43-4385-b04a-c3797138d684"}');
 INSERT INTO public.nodes VALUES ('74460e93-5e8e-4fef-bbb7-0ca529bdef6d', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', '973937ff-bf06-4fb7-8363-a4a0d35ad511', NULL, '{"next": "4fbb7e27-8e26-47dd-bea1-f687cc4a98db"}');
 INSERT INTO public.nodes VALUES ('4fbb7e27-8e26-47dd-bea1-f687cc4a98db', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'a345c59c-4bea-4bef-b0e9-36d774d9111e', '8640865c-9493-4d58-9f32-ce875241b9ab', '{"next": "74460e93-5e8e-4fef-bbb7-0ca529bdef6d"}');
@@ -277,8 +283,10 @@ INSERT INTO public.type_verification_scripts VALUES ('8d9a969e-2c23-4465-b7f8-fa
 INSERT INTO public.type_verification_scripts VALUES ('c7093e07-cc89-4f4d-aac0-cc78c1e1dc45', 'f79c6225-baf0-45af-81c6-8eb45d1a961f', 'def validate_type(value, restrictions, component_list):
     return None');
 INSERT INTO public.type_verification_scripts VALUES ('090ad3e7-9cfa-4839-b1de-c8ca15213f7b', '517bf0f4-ec17-4f0b-aa9f-25d78d1468c9', 'result = caca //better stat');
-INSERT INTO public.type_verification_scripts VALUES ('55f1e88d-674a-47fe-bd88-399ccb80c2eb', '21ecaea4-696d-4e7c-8a31-20522674552f', 'result = pipi');
-INSERT INTO public.type_verification_scripts VALUES ('675cc168-7659-46c4-815d-805b4f172c61', 'b4258b56-81d6-4a03-84a1-0edab70281f4', 'result = popo');
+INSERT INTO public.type_verification_scripts VALUES ('55f1e88d-674a-47fe-bd88-399ccb80c2eb', '21ecaea4-696d-4e7c-8a31-20522674552f', 'def validate_type(value, restrictions, component_list):
+    return None');
+INSERT INTO public.type_verification_scripts VALUES ('675cc168-7659-46c4-815d-805b4f172c61', 'b4258b56-81d6-4a03-84a1-0edab70281f4', 'def validate_type(value, restrictions, component_list):
+    return None');
 INSERT INTO public.type_verification_scripts VALUES ('79e18e0a-3ac8-4bd4-a020-2c364378baa4', '01858199-d256-4071-90da-c212704bd7da', 'result = proutopipi');
 INSERT INTO public.type_verification_scripts VALUES ('33444d31-6bf9-4441-97c8-19ed2548b4d5', '46f3fe59-7eca-4529-b290-ed315e302e12', 'def validate_type(value, restrictions, component_list):
     return None');
