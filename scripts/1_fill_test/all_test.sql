@@ -42,7 +42,7 @@ INSERT INTO public.types VALUES ('517bf0f4-ec17-4f0b-aa9f-25d78d1468c9', '0e3196
 INSERT INTO public.types VALUES ('46f3fe59-7eca-4529-b290-ed315e302e12', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', NULL, 'dictionary', NULL);
 INSERT INTO public.types VALUES ('21ecaea4-696d-4e7c-8a31-20522674552f', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', NULL, 'list', NULL);
 INSERT INTO public.types VALUES ('b4258b56-81d6-4a03-84a1-0edab70281f4', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', NULL, 'enum', NULL);
-INSERT INTO public.types VALUES ('509b9865-a9e7-40e8-a7e0-071c7fda2f97', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', '46f3fe59-7eca-4529-b290-ed315e302e12', 'Stat pool', '{"interface": {"cha": "f79c6225-baf0-45af-81c6-8eb45d1a961f", "con": "f79c6225-baf0-45af-81c6-8eb45d1a961f", "dex": "f79c6225-baf0-45af-81c6-8eb45d1a961f", "int": "f79c6225-baf0-45af-81c6-8eb45d1a961f", "str": "f79c6225-baf0-45af-81c6-8eb45d1a961f", "wis": "f79c6225-baf0-45af-81c6-8eb45d1a961f"}}');
+INSERT INTO public.types VALUES ('509b9865-a9e7-40e8-a7e0-071c7fda2f97', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', '21ecaea4-696d-4e7c-8a31-20522674552f', 'Stat pool', '{"type": "f79c6225-baf0-45af-81c6-8eb45d1a961f", "min_length": 6, "max_length": 6}');
 INSERT INTO public.types VALUES ('00a5d535-e46f-42ef-b0d3-7d572adde9e8', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'b4258b56-81d6-4a03-84a1-0edab70281f4', 'Sorcerer spell', '{"tags": ["080bae99-829d-4fc9-91c7-6b43b06b24b0", "110ee2a7-d94a-416f-b66d-4d26927fc268"]}');
 INSERT INTO public.types VALUES ('31f387c2-1288-4b79-a851-d201476ef555', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'b4258b56-81d6-4a03-84a1-0edab70281f4', 'Bard Spell', '{"tags": ["080bae99-829d-4fc9-91c7-6b43b06b24b0", "2a9bf94f-1db4-48c2-9a60-63a0f65d3493"]}');
 INSERT INTO public.types VALUES ('753a2e09-60e4-4bb8-9553-9c1ef4662afa', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'b4258b56-81d6-4a03-84a1-0edab70281f4', 'Barbarian path', '{"tags": ["e5a7d58f-7842-4bac-ae72-0c344883303f", "dcc6c81e-d887-4df0-ab1f-76d0df97e63d"]}');
@@ -51,11 +51,9 @@ INSERT INTO public.types VALUES ('6d08852f-9eec-479b-b03d-f1318b3161a8', '0e3196
 INSERT INTO public.types VALUES ('830ed1a0-2dcb-4b01-b7e8-6e8fb419ef97', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', '458b7c0a-6cc8-4108-ac23-850af12ed2b7', 'current hp', NULL);
 INSERT INTO public.types VALUES ('6109eca7-5b21-4c5f-906c-ae882ceb353c', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', '01858199-d256-4071-90da-c212704bd7da', 'email', '{"regex_expression": "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"}');
 INSERT INTO public.types VALUES ('176299e6-5cb7-4728-9808-46bcf391250f', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'b4258b56-81d6-4a03-84a1-0edab70281f4', 'object', '{"tags": ["0e8ef112-a906-4c50-8c68-26501212eaa0"]}');
--- Class = {"classes": [{"class": <enum id>, "level": <1..20>}, ...]}
+-- Class = list of class enum ids, e.g. ["<enum id>", "<enum id>"]
 INSERT INTO public.types VALUES ('d3c23a4e-780b-49aa-a85a-802ed877c57d', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'b4258b56-81d6-4a03-84a1-0edab70281f4', 'Class choice', '{"tags": ["64f73b11-5699-46a2-9f63-4db41f18e472"]}');
-INSERT INTO public.types VALUES ('b7c1d4e2-3a5f-4e8b-9c21-6f0a7d5e1b34', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', '46f3fe59-7eca-4529-b290-ed315e302e12', 'Class entry', '{"interface": {"class": "d3c23a4e-780b-49aa-a85a-802ed877c57d", "level": "7786f8ca-40c0-4b22-8319-8c38da55f51c"}}');
-INSERT INTO public.types VALUES ('c8d2e5f3-4b60-4f9c-8d32-7a1b8e6f2c45', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', '21ecaea4-696d-4e7c-8a31-20522674552f', 'Class list', '{"type": "b7c1d4e2-3a5f-4e8b-9c21-6f0a7d5e1b34", "min_length": 1}');
-INSERT INTO public.types VALUES ('d9e3f6a4-5c71-40ad-9e43-8b2c9f7a3d56', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', '46f3fe59-7eca-4529-b290-ed315e302e12', 'Classes', '{"interface": {"classes": "c8d2e5f3-4b60-4f9c-8d32-7a1b8e6f2c45"}}');
+INSERT INTO public.types VALUES ('c8d2e5f3-4b60-4f9c-8d32-7a1b8e6f2c45', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', '21ecaea4-696d-4e7c-8a31-20522674552f', 'Class list', '{"type": "d3c23a4e-780b-49aa-a85a-802ed877c57d", "min_length": 1}');
 
 
 --
@@ -80,7 +78,7 @@ INSERT INTO public.static_components_templates VALUES ('a345c59c-4bea-4bef-b0e9-
 INSERT INTO public.static_components_templates VALUES ('08e6a40e-4f5e-47f7-bd91-7118f4ce4d29', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'Sorcerer spells', 'sorcerer spells', '00a5d535-e46f-42ef-b0d3-7d572adde9e8');
 INSERT INTO public.static_components_templates VALUES ('95399172-0f43-4e10-8024-9c63c0373fc0', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'Bard spells', 'bard spells', '31f387c2-1288-4b79-a851-d201476ef555');
 INSERT INTO public.static_components_templates VALUES ('0c9c9ab8-c65e-41f4-9207-282eab61f92e', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'Barbarian path', 'barbarian path', '753a2e09-60e4-4bb8-9553-9c1ef4662afa');
-INSERT INTO public.static_components_templates VALUES ('c1d8156c-ad1a-4df0-94e8-11dba7aae8f8', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'Class', 'class', 'd9e3f6a4-5c71-40ad-9e43-8b2c9f7a3d56');
+INSERT INTO public.static_components_templates VALUES ('c1d8156c-ad1a-4df0-94e8-11dba7aae8f8', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'Class', 'class', 'c8d2e5f3-4b60-4f9c-8d32-7a1b8e6f2c45');
 INSERT INTO public.static_components_templates VALUES ('127ffe19-a102-4a5f-bf10-7773fab04fd1', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'Level', 'Base level', '7786f8ca-40c0-4b22-8319-8c38da55f51c');
 INSERT INTO public.static_components_templates VALUES ('973937ff-bf06-4fb7-8363-a4a0d35ad511', '0e3196a0-f8d8-444f-a6b6-d5f6f81f6333', 'Hp', 'Max hp', '6d08852f-9eec-479b-b03d-f1318b3161a8');
 
@@ -138,7 +136,7 @@ INSERT INTO public.enums VALUES ('f552b243-81fb-4901-9b09-a140de4660f4', '0e3196
 --
 
 INSERT INTO public.next_scripts VALUES ('bc99527e-a6d2-4634-9b5a-8861519bf194', '# multiclasse choice
-#   node_values[CLASS_NODE] = {"classes": [{"class": enum_id, "level": n}, ...]}
+#   node_values[CLASS_NODE] = [enum_id, enum_id, ...]  (list of chosen classes)
 #   Return None while the next node cannot be determined.
 CLASS_NODE = "5add1a83-bd43-4385-b04a-c3797138d684"
 STATS_NODE = "4fbb7e27-8e26-47dd-bea1-f687cc4a98db"
@@ -155,8 +153,8 @@ def get_next_node(node_values, current_tree, target_node, params):
     if target_node not in node_values:
         return None
 
-    value = node_values.get(CLASS_NODE)
-    if type(value) != "dict" or len(value.get("classes", [])) == 0:
+    classes = node_values.get(CLASS_NODE)
+    if type(classes) != "list" or len(classes) == 0:
         return None
 
     possibilities = {
@@ -165,8 +163,8 @@ def get_next_node(node_values, current_tree, target_node, params):
         "33d4255f-f405-4bb5-add5-f85e0ff43e5b": "395d85bf-8fa6-434f-aa8f-933ef245e0eb",  # Barbarian -> Barbarian path
     }
 
-    for entry in value["classes"]:
-        block = possibilities.get(entry.get("class"))
+    for chosen in classes:
+        block = possibilities.get(chosen)
         if block == None:
             return None
         if not is_node_in_tree(block, current_tree):
@@ -258,7 +256,7 @@ INSERT INTO public.link_enums_tags VALUES ('33d4255f-f405-4bb5-add5-f85e0ff43e5b
 INSERT INTO public.static_components VALUES ('d0628dac-42bd-470c-9431-221aa3d1a710', 'c1f8b452-91fd-4c0a-bf93-48a6d03d7846', '127ffe19-a102-4a5f-bf10-7773fab04fd1', '4');
 INSERT INTO public.static_components VALUES ('3daa647b-2fd1-48f8-808e-7b72079a96d9', '41371b0d-33c9-4a97-b902-c0a1b0108348', '127ffe19-a102-4a5f-bf10-7773fab04fd1', '10');
 INSERT INTO public.static_components VALUES ('05c08e30-4516-4a02-be39-f24845d717f3', '41371b0d-33c9-4a97-b902-c0a1b0108348', '973937ff-bf06-4fb7-8363-a4a0d35ad511', '40');
-INSERT INTO public.static_components VALUES ('c7d7153d-9e67-4868-b674-532d1796ff25', '41371b0d-33c9-4a97-b902-c0a1b0108348', 'a345c59c-4bea-4bef-b0e9-36d774d9111e', '{"cha": 10, "con": 10, "dex": 9, "int": 10, "str": 10, "wis": 10}');
+INSERT INTO public.static_components VALUES ('c7d7153d-9e67-4868-b674-532d1796ff25', '41371b0d-33c9-4a97-b902-c0a1b0108348', 'a345c59c-4bea-4bef-b0e9-36d774d9111e', '[10, 10, 9, 10, 10, 10]');
 
 
 --
@@ -297,10 +295,9 @@ INSERT INTO public.type_verification_scripts VALUES ('d193655c-a647-4f30-a93d-f5
     return None
 ');
 INSERT INTO public.type_verification_scripts VALUES ('f08cb748-2931-43c6-8493-7f6f5684c6a3', '509b9865-a9e7-40e8-a7e0-071c7fda2f97', 'def validate_type(value, restrictions, component_list):
-    keys = ["dex","cha","int","str","wis","con"]
     sum = 0
-    for key in keys:
-        sum += value[key]
+    for stat in value:
+        sum += stat
     max = component_list["127ffe19-a102-4a5f-bf10-7773fab04fd1"] * 6
     if sum > max:
         return "too much stats for level (only 6 points per level) got {} max {}".format(sum, max)
