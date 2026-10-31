@@ -2,8 +2,8 @@ CREATE OR REPLACE FUNCTION get_verifications(target_type_ids UUID[])
 RETURNS TABLE (
     target_type_id UUID,
     base_name VARCHAR(255),
-    restrictions JSONB,
-    scripts TEXT[]
+    scripts TEXT[],
+    restrictions JSONB
 )
 LANGUAGE sql
 STABLE
@@ -47,8 +47,8 @@ ordered_scripts AS (
 SELECT
     it.target_type_id,
     rt.base_name,
-    COALESCE(fr.restrictions, '{}'::jsonb) AS restrictions,
-    COALESCE(os.scripts, ARRAY[]::TEXT[]) AS scripts
+    COALESCE(os.scripts, ARRAY[]::TEXT[]) AS scripts,
+    COALESCE(fr.restrictions, '{}'::jsonb) AS restrictions
 FROM input_types it
 LEFT JOIN root_types rt ON rt.target_type_id = it.target_type_id
 LEFT JOIN final_restrictions fr ON fr.target_type_id = it.target_type_id
