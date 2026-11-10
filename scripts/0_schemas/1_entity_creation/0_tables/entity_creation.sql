@@ -4,7 +4,8 @@ CREATE TABLE IF NOT EXISTS "nodes" (
 	"template_id" UUID NOT NULL,
 	"next_script_id" UUID,
 	"next_script_params" JSONB NOT NULL,
-	PRIMARY KEY("id")
+	PRIMARY KEY("id"),
+	CONSTRAINT "unique_ruleset_template" UNIQUE ("ruleset_id", "template_id")
 );
 
 CREATE TABLE IF NOT EXISTS "next_scripts" (
