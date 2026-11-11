@@ -1,0 +1,3 @@
+ALTER TABLE "character_sheet"
+ADD FOREIGN KEY("ruleset_id") REFERENCES "rulesets"("id")
+ON UPDATE NO ACTION ON DELETE CASCADE;
